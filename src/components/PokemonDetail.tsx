@@ -188,7 +188,7 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
     const evolutionStages = processEvolutionChain(fullDetail.evolutionChain.chain);
 
     return (
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-6xl mx-auto">
         {/* 헤더 */}
         <div className="text-center mb-8">
           <div className="text-4xl mb-2">🧬</div>
@@ -196,82 +196,97 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
           <p className="text-muted mt-2">포켓몬의 진화 단계와 조건을 확인하세요</p>
         </div>
         
-        {/* 진화 체인 */}
-        <div className="space-y-8">
-          {evolutionStages.map((stage, stageIndex) => (
-            <div key={stageIndex} className="relative">
-              {/* 진화 조건 (첫 번째 단계가 아닌 경우) */}
-              {stageIndex > 0 && (
-                <div className="flex justify-center mb-6">
-                  <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full shadow-lg">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-lg">⬇️</span>
-                      <span className="font-medium">
-                        {stage.length > 0 && stage[0].minLevel && `레벨 ${stage[0].minLevel}`}
-                        {stage.length > 0 && stage[0].item && (
-                          getEvolutionCondition([{
-                            min_level: stage[0].minLevel,
-                            item: { name: stage[0].item },
-                            trigger: { name: stage[0].trigger },
-                            time_of_day: stage[0].timeOfDay,
-                            location: stage[0].location ? { name: stage[0].location } : null,
-                            min_happiness: stage[0].friendship ? 220 : null
-                          }])
-                        )}
-                      </span>
-                    </div>
+        {/* 가로 진화 체인 */}
+        <div className="flex items-center justify-center overflow-x-auto pb-4">
+          <div className="flex items-center space-x-8 min-w-max">
+            {evolutionStages.map((stage, stageIndex) => (
+              <div key={stageIndex} className="flex items-center">
+                {/* 포켓몬 카드 */}
+                <div className="flex flex-col items-center">
+                  {/* 단계 레이블 */}
+                  <div className="mb-4">
+                    <span className="inline-block px-3 py-1 bg-gray-100 dark:bg-slate-700 rounded-full text-xs font-semibold text-gray-700 dark:text-slate-300">
+                      {stageIndex === 0 ? '🥚 기본형' : stageIndex === 1 ? '🌱 1차 진화' : '🌺 최종 진화'}
+                    </span>
+                  </div>
+
+                  {/* 포켓몬 들 */}
+                  <div className="space-y-4">
+                    {stage.map((pokemon, index) => (
+                      <div
+                        key={`${pokemon.name}-${index}`}
+                        className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-gray-200 dark:border-slate-600 p-6 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer group"
+                        style={{ width: '180px' }}
+                      >
+                        <div className="text-center">
+                          {/* 포켓몬 이미지 */}
+                          <div className="relative w-24 h-24 mx-auto mb-3">
+                            <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-slate-700 dark:to-slate-600 rounded-full group-hover:animate-pulse"></div>
+                            <img
+                              src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+                              alt={pokemon.name}
+                              className="relative z-10 w-full h-full object-contain p-2"
+                              onError={(e) => {
+                                const img = e.target as HTMLImageElement;
+                                img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+                              }}
+                            />
+                          </div>
+                          
+                          {/* 포켓몬 정보 */}
+                          <div className="space-y-1">
+                            <div className="text-xs font-bold text-blue-600 dark:text-blue-400">
+                              #{pokemon.id.padStart(3, '0')}
+                            </div>
+                            <div className="font-bold text-sm capitalize text-gray-900 dark:text-slate-100">
+                              {pokemon.name}
+                            </div>
+                            <div className="text-xs text-gray-600 dark:text-slate-400">
+                              {PokemonService.getKoreanName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              )}
 
-              {/* 단계 레이블 */}
-              <div className="text-center mb-4">
-                <span className="inline-block px-4 py-2 bg-gray-100 dark:bg-slate-700 rounded-full text-sm font-semibold text-gray-700 dark:text-slate-300">
-                  {stageIndex === 0 ? '🥚 기본형' : stageIndex === 1 ? '🌱 1차 진화' : '🌺 최종 진화'}
-                </span>
-              </div>
-
-              {/* 포켓몬 카드들 */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
-                {stage.map((pokemon, index) => (
-                  <div
-                    key={`${pokemon.name}-${index}`}
-                    className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-gray-200 dark:border-slate-600 p-6 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer group"
-                    style={{ minWidth: '200px', maxWidth: '220px' }}
-                  >
-                    <div className="text-center">
-                      {/* 포켓몬 이미지 */}
-                      <div className="relative w-28 h-28 mx-auto mb-4">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-slate-700 dark:to-slate-600 rounded-full group-hover:animate-pulse"></div>
-                        <img
-                          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
-                          alt={pokemon.name}
-                          className="relative z-10 w-full h-full object-contain p-2"
-                          onError={(e) => {
-                            const img = e.target as HTMLImageElement;
-                            img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
-                          }}
-                        />
-                      </div>
-                      
-                      {/* 포켓몬 정보 */}
-                      <div className="space-y-2">
-                        <div className="text-sm font-bold text-blue-600 dark:text-blue-400">
-                          #{pokemon.id.padStart(3, '0')}
-                        </div>
-                        <div className="font-bold text-lg capitalize text-gray-900 dark:text-slate-100">
-                          {pokemon.name}
-                        </div>
-                        <div className="text-sm text-gray-600 dark:text-slate-400">
-                          {PokemonService.getKoreanName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
+                {/* 진화 화살표 (마지막 단계가 아닌 경우) */}
+                {stageIndex < evolutionStages.length - 1 && (
+                  <div className="flex flex-col items-center mx-8">
+                    {/* 진화 조건 */}
+                    <div className="mb-4">
+                      <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-4 py-2 rounded-full shadow-lg">
+                        <div className="flex items-center space-x-2">
+                          <span className="text-sm font-medium">
+                            {evolutionStages[stageIndex + 1].length > 0 && evolutionStages[stageIndex + 1][0].minLevel && (
+                              `레벨 ${evolutionStages[stageIndex + 1][0].minLevel}`
+                            )}
+                            {evolutionStages[stageIndex + 1].length > 0 && evolutionStages[stageIndex + 1][0].item && (
+                              getEvolutionCondition([{
+                                min_level: evolutionStages[stageIndex + 1][0].minLevel,
+                                item: { name: evolutionStages[stageIndex + 1][0].item },
+                                trigger: { name: evolutionStages[stageIndex + 1][0].trigger },
+                                time_of_day: evolutionStages[stageIndex + 1][0].timeOfDay,
+                                location: evolutionStages[stageIndex + 1][0].location ? { name: evolutionStages[stageIndex + 1][0].location } : null,
+                                min_happiness: evolutionStages[stageIndex + 1][0].friendship ? 220 : null
+                              }])
+                            )}
+                            {!evolutionStages[stageIndex + 1][0].minLevel && !evolutionStages[stageIndex + 1][0].item && '진화'}
+                          </span>
                         </div>
                       </div>
                     </div>
+                    
+                    {/* 화살표 */}
+                    <div className="text-4xl text-blue-500 dark:text-blue-400">
+                      ➡️
+                    </div>
                   </div>
-                ))}
+                )}
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* 진화하지 않는 포켓몬 메시지 */}
