@@ -239,10 +239,10 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                               #{pokemon.id.padStart(3, '0')}
                             </div>
                             <div className="font-bold text-sm capitalize text-gray-900 dark:text-slate-100">
-                              {pokemon.name}
+                              {PokemonService.getKoreanName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
                             </div>
                             <div className="text-xs text-gray-600 dark:text-slate-400">
-                              {PokemonService.getKoreanName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
+                              {pokemon.name}
                             </div>
                           </div>
                         </div>
@@ -401,7 +401,7 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                         )}
                       </div>
                       <div className="font-medium capitalize text-gray-900 dark:text-slate-100 group-hover:text-green-600 dark:group-hover:text-green-400">
-                        {move.name.replace(/-/g, ' ')}
+                        {PokemonService.getSimpleMoveKoreanName(move.name)}
                       </div>
                       {moveDetails[move.name] && (
                         <div className="mt-2 space-y-1">
@@ -467,7 +467,7 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                         )}
                       </div>
                       <div className="font-medium capitalize text-gray-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">
-                        {move.name.replace(/-/g, ' ')}
+                        {PokemonService.getSimpleMoveKoreanName(move.name)}
                       </div>
                       {moveDetails[move.name] && (
                         <div className="mt-2 space-y-1">
@@ -528,7 +528,7 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                         )}
                       </div>
                       <div className="font-medium capitalize text-gray-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400">
-                        {move.name.replace(/-/g, ' ')}
+                        {PokemonService.getSimpleMoveKoreanName(move.name)}
                       </div>
                       {moveDetails[move.name] && (
                         <div className="mt-2 space-y-1">
@@ -674,6 +674,10 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                     <h3 className="text-lg font-semibold mb-2">기본 정보</h3>
                     <div className="space-y-2">
                       <div className="flex justify-between">
+                        <span className="text-muted">한국명:</span>
+                        <span className="capitalize">{koreanName}</span>
+                      </div>
+                      <div className="flex justify-between">
                         <span className="text-muted">영문명:</span>
                         <span className="capitalize">{pokemon.name}</span>
                       </div>
@@ -714,7 +718,7 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                           <span className="text-muted">
                             {ability.is_hidden ? '숨겨진 특성:' : '특성:'}
                           </span>
-                          <span className="capitalize">{ability.ability.name}</span>
+                          <span className="capitalize">{PokemonService.getAbilityKoreanName(ability.ability.name)}</span>
                         </div>
                       ))}
                     </div>

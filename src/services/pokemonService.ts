@@ -260,6 +260,209 @@ const KOREAN_NAMES: { [key: string]: string } = {
   "celebi": "세레비",
 };
 
+// 한국어 기술명 매핑
+const KOREAN_MOVE_NAMES: { [key: string]: string } = {
+  // 물리 공격 기술
+  "tackle": "몸통박치기",
+  "scratch": "할퀴기",
+  "pound": "두드리기",
+  "slam": "내동댕이치기",
+  "vine-whip": "덩굴채찍",
+  "razor-leaf": "면도날잎",
+  "bite": "물기",
+  "thrash": "난동부리기",
+  "cut": "자르기",
+  "fury-attack": "연속자르기",
+  "peck": "쪼기",
+  "drill-peck": "드릴쪼기",
+  "wing-attack": "날개치기",
+  "fly": "공중날기",
+  "body-slam": "몸통박치기",
+  "wrap": "조이기",
+  "take-down": "돌진",
+  "double-edge": "이판사판박치기",
+  "tail-whip": "꼬리흔들기",
+  "poison-sting": "독침",
+  "pin-missile": "미사일바늘",
+  "leer": "째려보기",
+  "quick-attack": "전광석화",
+  "rage": "분노",
+  "horn-attack": "뿔찌르기",
+  "fury-swipes": "연속할퀴기",
+  "slash": "베기",
+  "guillotine": "가위자르기",
+  "karate-chop": "태권당수",
+  "comet-punch": "연속펀치",
+  "mega-punch": "메가펀치",
+  "pay-day": "돈던지기",
+  "fire-punch": "불꽃펀치",
+  "ice-punch": "냉동펀치",
+  "thunder-punch": "번개펀치",
+  "seismic-toss": "지구던지기",
+  "strength": "괴력",
+  "absorb": "흡수",
+  "mega-drain": "메가드레인",
+  "leech-seed": "씨뿌리기",
+  "growth": "성장",
+  "rock-throw": "바위던지기",
+  "earthquake": "지진",
+  "fissure": "균열",
+  "dig": "구멍파기",
+  "toxic": "맹독",
+  "confusion": "염동력",
+  "psychic": "사이코키네시스",
+  "hypnosis": "최면술",
+  "meditate": "요가포즈",
+  "agility": "고속이동",
+  "teleport": "순간이동",
+  "night-shade": "나이트헤드",
+  "mimic": "흙내내기",
+  "screech": "째렁째렁",
+  "double-team": "분신",
+  "recover": "자기회복",
+  "harden": "단단해지기",
+  "minimize": "작아지기",
+  "defense-curl": "웅크리기",
+  "barrier": "배리어",
+  "light-screen": "빛의장막",
+  "haze": "흑안개",
+  "reflect": "리플렉터",
+  "focus-energy": "기합모으기",
+  "bide": "참기",
+  "metronome": "손가락흔들기",
+  "mirror-move": "따라하기",
+  "self-destruct": "자폭",
+  "egg-bomb": "알폭탄",
+  "lick": "혀로핡기",
+  "smog": "스모그",
+  "sludge": "오니",
+  "bone-club": "뼈다귀치기",
+  "fire-blast": "대문자불꽃",
+  "waterfall": "폭포오르기",
+  "clamp": "집게압박",
+  "swift": "스피드스타",
+  "skull-bash": "로켓박치기",
+  "spike-cannon": "가시대포",
+  "constrict": "단단조이기",
+  "amnesia": "깜빡하기",
+  "kinesis": "염력",
+  "soft-boiled": "알낳기",
+  "hi-jump-kick": "무릎차기",
+  "glare": "뱀눈초리",
+  "dream-eater": "꿈먹기",
+  "poison-gas": "독가스",
+  "barrage": "구슬던지기",
+  "leech-life": "흡혈",
+  "lovely-kiss": "천사의키스",
+  "sky-attack": "공중날기공격",
+  "transform": "변신",
+  "bubble": "거품",
+  "dizzy-punch": "현기증펀치",
+  "spore": "버섯포자",
+  "flash": "플래시",
+  "psywave": "사이코웨이브",
+  "splash": "튀어오르기",
+  "acid-armor": "용해",
+  "crabhammer": "게집게해머",
+  "explosion": "대폭발",
+  "bonemerang": "뼈다귀부메랑",
+  "rest": "잠자기",
+  "rock-slide": "암석낙하",
+  "hyper-fang": "필살앞니",
+  "sharpen": "칼날세우기",
+  "conversion": "텍스처",
+  "tri-attack": "트라이어택",
+  "super-fang": "분쇄앞니",
+  "substitute": "대타출동",
+  "struggle": "발버둥",
+  "sketch": "스케치",
+  "triple-kick": "트리플킥",
+  "thief": "도둑질",
+  "spider-web": "거미줄",
+  "mind-reader": "심안",
+  "nightmare": "악몽",
+  "flame-wheel": "불꽃바퀴",
+  "snore": "코골기",
+  "curse": "저주",
+  "flail": "발버둥치기",
+  "conversion-2": "텍스처2",
+  "aeroblast": "에어로블라스트",
+  "cotton-spore": "솜포자",
+  "reversal": "기사회생",
+  "spite": "원한",
+  "powder-snow": "가루눈",
+  "protect": "방어",
+  "mach-punch": "마하펀치",
+  "scary-face": "무서운얼굴",
+  "faint-attack": "속임수",
+  "sweet-kiss": "달콤한키스",
+  "belly-drum": "배북",
+  "sludge-bomb": "오니폭탄",
+  "mud-slap": "진흙던지기",
+  "octazooka": "옥타포스",
+  "spikes": "압정뿌리기",
+  "zap-cannon": "전자포",
+  "foresight": "식별",
+  "destiny-bond": "길동무",
+  "perish-song": "멸망의노래",
+  "icy-wind": "얼음바람",
+  "detect": "판별",
+  "bone-rush": "뼈다귀러시",
+  "lock-on": "록온",
+  "outrage": "역린",
+  "sandstorm": "모래바람",
+  "giga-drain": "기가드레인",
+  "endure": "버티기",
+  "charm": "애교부리기",
+  "rollout": "구르기",
+  "false-swipe": "칼등치기",
+  "swagger": "잘난척하기",
+  "milk-drink": "우유마시기",
+  "spark": "스파크",
+  "fury-cutter": "연속베기",
+  "steel-wing": "강철날개",
+  "mean-look": "검은눈빛",
+  "attract": "헤롱헤롱",
+  "sleep-talk": "잠꼬대",
+  "heal-bell": "치유방울",
+  "return": "보은",
+  "present": "선물",
+  "frustration": "화풀이",
+  "safeguard": "신비의부적",
+  "pain-split": "아픔나누기",
+  "sacred-fire": "신성한불꽃",
+  "magnitude": "매그니튜드",
+  "dynamic-punch": "폭발펀치",
+  "megahorn": "메가혼",
+  "dragon-breath": "용의숨결",
+  "baton-pass": "배턴터치",
+  "encore": "앙코르",
+  "pursuit": "따라가때리기",
+  "rapid-spin": "고속회전",
+  "sweet-scent": "달콤한향기",
+  "iron-tail": "아이언테일",
+  "metal-claw": "메탈크로우",
+  "vital-throw": "생명투척",
+  "morning-sun": "아침햇살",
+  "synthesis": "광합성",
+  "moonlight": "월광",
+  "hidden-power": "숨겨진힘",
+  "cross-chop": "크로스촙",
+  "twister": "회오리",
+  "rain-dance": "비바라기",
+  "sunny-day": "쾌청",
+  "crunch": "깨물어부수기",
+  "mirror-coat": "미러코트",
+  "psych-up": "자기암시",
+  "extreme-speed": "신속",
+  "ancient-power": "원시의힘",
+  "shadow-ball": "섀도볼",
+  "future-sight": "미래예지",
+  "rock-smash": "바위깨기",
+  "whirlpool": "바다회오리",
+  "beat-up": "집단구타"
+};
+
 export class PokemonService {
   static async getPokemonList(limit: number = 20, offset: number = 0): Promise<PokemonListResponse> {
     const response = await fetch(`${BASE_URL}/pokemon?limit=${limit}&offset=${offset}`);
@@ -494,7 +697,31 @@ export class PokemonService {
   // 기술 한국어 이름 가져오기
   static getMoveKoreanName(move: Move): string {
     const koreanName = move.names.find(name => name.language.name === 'ko');
-    return koreanName ? koreanName.name : move.name;
+    if (koreanName) {
+      return koreanName.name;
+    }
+    
+    // API에서 한국어 이름을 찾을 수 없으면 미리 정의된 매핑 사용
+    if (KOREAN_MOVE_NAMES[move.name]) {
+      return KOREAN_MOVE_NAMES[move.name];
+    }
+    
+    // 둘 다 없으면 영어 이름을 보기 좋게 변환
+    return move.name.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  }
+
+  // 영어 기술명을 한국어로 변환 (간단한 버전)
+  static getSimpleMoveKoreanName(englishName: string): string {
+    if (KOREAN_MOVE_NAMES[englishName]) {
+      return KOREAN_MOVE_NAMES[englishName];
+    }
+    
+    // 영어 이름을 보기 좋게 변환
+    return englishName.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
   }
 
   // 물리/특수/변화 분류 한국어 번역
@@ -507,10 +734,71 @@ export class PokemonService {
     return classNames[damageClass] || damageClass;
   }
 
-  // 포켓몬 이름으로 ID 찾기 (간단한 구현)
-  static getIdFromName(name: string): number {
-    // 이 메서드는 더 복잡한 로직이 필요하지만, 임시로 간단한 구현
-    // 실제로는 추가 API 호출이나 캐시된 데이터가 필요
-    return 1; // 기본값
+  // 특성 한국어 이름 번역
+  static getAbilityKoreanName(abilityName: string): string {
+    const abilityNames: { [key: string]: string } = {
+      'overgrow': '신록',
+      'chlorophyll': '엽렉소',
+      'blaze': '맹화',
+      'solar-power': '태양발전',
+      'torrent': '격류',
+      'rain-dish': '비받이',
+      'shield-dust': '비늘가루',
+      'run-away': '도주',
+      'keen-eye': '날카로운눈',
+      'tangled-feet': '비비꺼리',
+      'big-pecks': '가슴과영',
+      'guts': '근성',
+      'swarm': '벌레의예감',
+      'sniper': '스나이파',
+      'intimidate': '위협',
+      'moxie': '자신과잘',
+      'sand-veil': '모래숨기',
+      'sand-rush': '모래플력',
+      'sand-force': '모래의힙',
+      'poison-point': '독가시',
+      'rivalry': '투쟁심',
+      'sheer-force': '원하이핐필',
+      'cute-charm': '매력적인몸',
+      'magic-guard': '매직가드',
+      'unaware': '천연',
+      'flash-fire': '저가받기',
+      'drought': '끄무',
+      'inner-focus': '정신력',
+      'regenerator': '재생력',
+      'magic-bounce': '매직미러',
+      'static': '정전기',
+      'lightning-rod': '피놰침',
+      'sturdy': '단단함',
+      'rock-head': '바위머리',
+      'weak-armor': '깜지는갑옆',
+      'thick-fat': '두꺼운지방',
+      'oblivious': '둔감',
+      'own-tempo': '마이페이스',
+      'synchronize': '싱크로',
+      'trace': '트레이스',
+      'telepathy': '텔레파시',
+      'steadfast': '불굴의마음',
+      'justified': '정의의마음',
+      'sand-stream': '모래날리기',
+      'water-absorb': '저수',
+      'damp': '습기',
+      'swift-swim': '유영',
+      'clear-body': '클리어바디',
+      'liquid-ooze': '액체끗',
+      'rock-blast': '보이타',
+      'adaptability': '적응력',
+      'technician': '타이e홀',
+      'skill-link': '스킬링크',
+      'pickup': '죍기',
+      'gluttony': '대식가',
+      'unburden': '가볍함',
+      'hustle': '다짐',
+      'serene-grace': '캜럹',
+      'natural-cure': '자연회복'
+    };
+    return abilityNames[abilityName] || abilityName.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
   }
 }
