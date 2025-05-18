@@ -55,7 +55,12 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
   // 진화 체인 렌더링
   const renderEvolutionChain = () => {
     if (!fullDetail?.evolutionChain) {
-      return <div className="text-center text-muted">진화 정보를 로드할 수 없습니다.</div>;
+      return (
+        <div className="flex flex-col items-center justify-center py-12">
+          <div className="text-6xl mb-4">🔄</div>
+          <p className="text-muted text-lg">진화 정보를 로드할 수 없습니다</p>
+        </div>
+      );
     }
 
     // 포켓몬 진화 정보 타입 정의
@@ -87,66 +92,59 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
       const detail = evolutionDetails[0];
       const conditions: string[] = [];
 
-      // 레벨 조건
       if (detail.min_level) {
         conditions.push(`레벨 ${detail.min_level}`);
       }
 
-      // 진화석 조건
       if (detail.item) {
         const itemName = detail.item.name;
         const stoneNames: { [key: string]: string } = {
-          'fire-stone': '불꽃의돌',
-          'water-stone': '물의돌',
-          'thunder-stone': '번개의돌',
-          'leaf-stone': '잎의돌',
-          'moon-stone': '달의돌',
-          'sun-stone': '태양의돌',
-          'shiny-stone': '빛의돌',
-          'dusk-stone': '어둠의돌',
-          'dawn-stone': '각성의돌',
-          'ice-stone': '얼음의돌'
+          'fire-stone': '🔥 불꽃의돌',
+          'water-stone': '💧 물의돌',
+          'thunder-stone': '⚡ 번개의돌',
+          'leaf-stone': '🍃 잎의돌',
+          'moon-stone': '🌙 달의돌',
+          'sun-stone': '☀️ 태양의돌',
+          'shiny-stone': '✨ 빛의돌',
+          'dusk-stone': '🌒 어둠의돌',
+          'dawn-stone': '🌅 각성의돌',
+          'ice-stone': '❄️ 얼음의돌'
         };
-        conditions.push(stoneNames[itemName] || itemName);
+        conditions.push(stoneNames[itemName] || `🔸 ${itemName}`);
       }
 
-      // 시간 조건
       if (detail.time_of_day) {
         const timeNames: { [key: string]: string } = {
-          'day': '낮',
-          'night': '밤'
+          'day': '☀️ 낮 시간',
+          'night': '🌙 밤 시간'
         };
         conditions.push(timeNames[detail.time_of_day] || detail.time_of_day);
       }
 
-      // 친밀도 조건
       if (detail.min_happiness) {
-        conditions.push(`친밀도 ${detail.min_happiness}`);
+        conditions.push(`💕 친밀도 ${detail.min_happiness}+`);
       }
 
-      // 교환 조건
       if (detail.trigger?.name === 'trade') {
-        conditions.push('교환');
+        conditions.push('🔄 교환 진화');
         if (detail.held_item) {
-          conditions.push(`(${detail.held_item.name} 소지)`);
+          conditions.push(`📦 ${detail.held_item.name} 소지`);
         }
       }
 
-      // 위치 조건
       if (detail.location) {
-        conditions.push(`특정 장소`);
+        conditions.push(`📍 특정 장소`);
       }
 
-      // 특수 조건들
       if (detail.known_move) {
-        conditions.push(`${detail.known_move.name} 습득`);
+        conditions.push(`🎯 ${detail.known_move.name} 습득`);
       }
 
       if (detail.party_species) {
-        conditions.push('파티에 특정 포켓몬');
+        conditions.push('👥 파티에 특정 포켓몬');
       }
 
-      return conditions.length > 0 ? conditions.join(' + ') : '특수조건';
+      return conditions.length > 0 ? conditions.join(' • ') : '🌟 특수조건';
     };
 
     // 진화 체인을 단계별로 처리
@@ -163,7 +161,6 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
           id: getPokemonIdFromUrl(node.species.url)
         };
 
-        // 진화 조건 추가 (첫 번째 단계가 아닌 경우만)
         if (stageIndex > 0 && node.evolution_details && node.evolution_details.length > 0) {
           const detail = node.evolution_details[0];
           pokemon.minLevel = detail.min_level;
@@ -177,7 +174,6 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
 
         stages[stageIndex].push(pokemon);
 
-        // 다음 진화 단계 처리
         if (node.evolves_to && node.evolves_to.length > 0) {
           node.evolves_to.forEach((evolution: any) => {
             traverse(evolution, stageIndex + 1);
@@ -192,88 +188,98 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
     const evolutionStages = processEvolutionChain(fullDetail.evolutionChain.chain);
 
     return (
-      <div className="space-y-6">
-        <div className="text-center">
-          <h3 className="text-xl font-semibold mb-4">진화 계보</h3>
+      <div className="max-w-4xl mx-auto">
+        {/* 헤더 */}
+        <div className="text-center mb-8">
+          <div className="text-4xl mb-2">🧬</div>
+          <h3 className="text-2xl font-bold text-gray-800 dark:text-slate-200">진화 계보</h3>
+          <p className="text-muted mt-2">포켓몬의 진화 단계와 조건을 확인하세요</p>
         </div>
         
-        {evolutionStages.map((stage, stageIndex) => (
-          <div key={stageIndex}>
-            {/* 진화 조건 표시 (첫 번째 단계가 아닌 경우) */}
-            {stageIndex > 0 && (
-              <div className="text-center mb-4">
-                <div className="inline-flex items-center justify-center w-8 h-8 bg-blue-500 text-white rounded-full text-sm font-bold mb-2">
-                  ↓
-                </div>
-                <div className="text-sm font-medium text-blue-600 dark:text-blue-400">
-                  {stage.length > 0 && stage[0].minLevel && `레벨 ${stage[0].minLevel}`}
-                  {stage.length > 0 && stage[0].item && (
-                    <div className="mt-1">
-                      {getEvolutionCondition([{
-                        min_level: stage[0].minLevel,
-                        item: { name: stage[0].item },
-                        trigger: { name: stage[0].trigger },
-                        time_of_day: stage[0].timeOfDay,
-                        location: stage[0].location ? { name: stage[0].location } : null,
-                        min_happiness: stage[0].friendship ? 220 : null
-                      }])}
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* 진화 단계 표시 */}
-            <div className="text-center mb-3">
-              <h4 className="text-lg font-semibold text-gray-700 dark:text-slate-300">
-                {stageIndex === 0 ? '기본형' : stageIndex === 1 ? '1차 진화' : '2차 진화'}
-              </h4>
-            </div>
-
-            {/* 포켓몬 카드들 */}
-            <div className="flex flex-wrap justify-center gap-4">
-              {stage.map((pokemon, index) => (
-                <div
-                  key={`${pokemon.name}-${index}`}
-                  className="bg-white dark:bg-slate-700 rounded-lg border border-gray-200 dark:border-slate-600 p-4 hover:shadow-lg transition-shadow cursor-pointer"
-                  style={{ minWidth: '150px' }}
-                >
-                  <div className="text-center">
-                    <div className="w-24 h-24 mx-auto mb-3 flex items-center justify-center">
-                      <img
-                        src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
-                        alt={pokemon.name}
-                        className="max-w-full max-h-full object-contain"
-                        onError={(e) => {
-                          const img = e.target as HTMLImageElement;
-                          img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
-                        }}
-                      />
-                    </div>
-                    <div className="space-y-1">
-                      <div className="text-sm font-semibold text-gray-600 dark:text-slate-400">
-                        #{pokemon.id.padStart(3, '0')}
-                      </div>
-                      <div className="font-medium capitalize text-gray-900 dark:text-slate-100">
-                        {pokemon.name}
-                      </div>
-                      {/* 한국어 이름 표시 (있는 경우) */}
-                      <div className="text-sm text-gray-500 dark:text-slate-400">
-                        {PokemonService.getKoreanName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
-                      </div>
+        {/* 진화 체인 */}
+        <div className="space-y-8">
+          {evolutionStages.map((stage, stageIndex) => (
+            <div key={stageIndex} className="relative">
+              {/* 진화 조건 (첫 번째 단계가 아닌 경우) */}
+              {stageIndex > 0 && (
+                <div className="flex justify-center mb-6">
+                  <div className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 py-3 rounded-full shadow-lg">
+                    <div className="flex items-center space-x-2">
+                      <span className="text-lg">⬇️</span>
+                      <span className="font-medium">
+                        {stage.length > 0 && stage[0].minLevel && `레벨 ${stage[0].minLevel}`}
+                        {stage.length > 0 && stage[0].item && (
+                          getEvolutionCondition([{
+                            min_level: stage[0].minLevel,
+                            item: { name: stage[0].item },
+                            trigger: { name: stage[0].trigger },
+                            time_of_day: stage[0].timeOfDay,
+                            location: stage[0].location ? { name: stage[0].location } : null,
+                            min_happiness: stage[0].friendship ? 220 : null
+                          }])
+                        )}
+                      </span>
                     </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
-        ))}
+              )}
 
-        {/* 진화 체인이 1단계뿐인 경우 메시지 */}
+              {/* 단계 레이블 */}
+              <div className="text-center mb-4">
+                <span className="inline-block px-4 py-2 bg-gray-100 dark:bg-slate-700 rounded-full text-sm font-semibold text-gray-700 dark:text-slate-300">
+                  {stageIndex === 0 ? '🥚 기본형' : stageIndex === 1 ? '🌱 1차 진화' : '🌺 최종 진화'}
+                </span>
+              </div>
+
+              {/* 포켓몬 카드들 */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 justify-items-center">
+                {stage.map((pokemon, index) => (
+                  <div
+                    key={`${pokemon.name}-${index}`}
+                    className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-gray-200 dark:border-slate-600 p-6 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer group"
+                    style={{ minWidth: '200px', maxWidth: '220px' }}
+                  >
+                    <div className="text-center">
+                      {/* 포켓몬 이미지 */}
+                      <div className="relative w-28 h-28 mx-auto mb-4">
+                        <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-purple-100 dark:from-slate-700 dark:to-slate-600 rounded-full group-hover:animate-pulse"></div>
+                        <img
+                          src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${pokemon.id}.png`}
+                          alt={pokemon.name}
+                          className="relative z-10 w-full h-full object-contain p-2"
+                          onError={(e) => {
+                            const img = e.target as HTMLImageElement;
+                            img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`;
+                          }}
+                        />
+                      </div>
+                      
+                      {/* 포켓몬 정보 */}
+                      <div className="space-y-2">
+                        <div className="text-sm font-bold text-blue-600 dark:text-blue-400">
+                          #{pokemon.id.padStart(3, '0')}
+                        </div>
+                        <div className="font-bold text-lg capitalize text-gray-900 dark:text-slate-100">
+                          {pokemon.name}
+                        </div>
+                        <div className="text-sm text-gray-600 dark:text-slate-400">
+                          {PokemonService.getKoreanName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* 진화하지 않는 포켓몬 메시지 */}
         {evolutionStages.length === 1 && (
-          <div className="text-center mt-6">
-            <div className="inline-flex items-center px-4 py-2 bg-gray-100 dark:bg-slate-700 rounded-lg">
-              <span className="text-gray-600 dark:text-slate-400">이 포켓몬은 진화하지 않습니다</span>
+          <div className="text-center mt-8">
+            <div className="inline-flex items-center px-6 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
+              <span className="text-2xl mr-2">💎</span>
+              <span className="text-amber-800 dark:text-amber-200 font-medium">이 포켓몬은 진화하지 않는 완성형입니다</span>
             </div>
           </div>
         )}
@@ -284,7 +290,12 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
   // 기술 목록 렌더링
   const renderMoves = () => {
     if (!fullDetail?.moves) {
-      return <div className="text-center text-muted">기술 정보를 로드할 수 없습니다.</div>;
+      return (
+        <div className="flex flex-col items-center justify-center py-12">
+          <div className="text-6xl mb-4">⚔️</div>
+          <p className="text-muted text-lg">기술 정보를 로드할 수 없습니다</p>
+        </div>
+      );
     }
 
     // 레벨업으로 배우는 기술만 필터링하고 레벨별로 정렬
@@ -317,79 +328,242 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
         level: null
       }));
 
+    // 기타 방법으로 배우는 기술
+    const otherMoves = fullDetail.moves
+      .filter(pokemonMove => 
+        pokemonMove.version_group_details.some(
+          detail => detail.move_learn_method.name !== 'level-up' && detail.move_learn_method.name !== 'machine'
+        )
+      )
+      .map(pokemonMove => {
+        const otherDetail = pokemonMove.version_group_details.find(
+          detail => detail.move_learn_method.name !== 'level-up' && detail.move_learn_method.name !== 'machine'
+        );
+        return {
+          move: pokemonMove.move,
+          method: otherDetail?.move_learn_method.name || 'unknown'
+        };
+      });
+
     return (
-      <div className="space-y-6">
-        {/* 레벨업 기술 */}
-        <div>
-          <h4 className="text-lg font-semibold mb-3">레벨업으로 배우는 기술</h4>
-          <div className="space-y-2 max-h-64 overflow-y-auto">
-            {levelUpMoves.map(({ move, level }) => (
-              <div
-                key={move.name}
-                className="flex items-center justify-between p-2 border border-muted rounded hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer"
-                onClick={() => loadMoveDetail(move.name)}
-              >
-                <div className="flex items-center space-x-3">
-                  <span className="text-sm font-medium w-12 text-center">
-                    Lv.{level}
-                  </span>
-                  <span className="capitalize">{move.name}</span>
-                  {moveDetails[move.name] && (
-                    <span
-                      className={`pokemon-type text-xs ${PokemonService.getTypeColor(moveDetails[move.name].type.name)}`}
-                    >
-                      {PokemonService.getTypeKoreanName(moveDetails[move.name].type.name)}
-                    </span>
-                  )}
-                </div>
-                {moveDetails[move.name] && (
-                  <div className="text-sm text-muted">
-                    {moveDetails[move.name].power 
-                      ? `위력: ${moveDetails[move.name].power}` 
-                      : PokemonService.getDamageClassKoreanName(moveDetails[move.name].damage_class.name)
-                    }
-                  </div>
-                )}
-              </div>
-            ))}
-          </div>
+      <div className="max-w-6xl mx-auto">
+        {/* 헤더 */}
+        <div className="text-center mb-8">
+          <div className="text-4xl mb-2">🎨</div>
+          <h3 className="text-2xl font-bold text-gray-800 dark:text-slate-200">배울 수 있는 기술</h3>
+          <p className="text-muted mt-2">포켓몬이 습득할 수 있는 모든 기술들을 확인하세요</p>
         </div>
 
-        {/* 기술머신 기술 */}
-        {machineMoves.length > 0 && (
-          <div>
-            <h4 className="text-lg font-semibold mb-3">기술머신으로 배우는 기술</h4>
-            <div className="space-y-2 max-h-64 overflow-y-auto">
-              {machineMoves.map(({ move }) => (
-                <div
-                  key={move.name}
-                  className="flex items-center justify-between p-2 border border-muted rounded hover:bg-gray-50 dark:hover:bg-slate-700 cursor-pointer"
-                  onClick={() => loadMoveDetail(move.name)}
-                >
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm font-medium w-12 text-center">TM</span>
-                    <span className="capitalize">{move.name}</span>
-                    {moveDetails[move.name] && (
-                      <span
-                        className={`pokemon-type text-xs ${PokemonService.getTypeColor(moveDetails[move.name].type.name)}`}
-                      >
-                        {PokemonService.getTypeKoreanName(moveDetails[move.name].type.name)}
-                      </span>
-                    )}
-                  </div>
-                  {moveDetails[move.name] && (
-                    <div className="text-sm text-muted">
-                      {moveDetails[move.name].power 
-                        ? `위력: ${moveDetails[move.name].power}` 
-                        : PokemonService.getDamageClassKoreanName(moveDetails[move.name].damage_class.name)
-                      }
+        <div className="space-y-8">
+          {/* 레벨업 기술 */}
+          <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-hidden shadow-sm">
+            <div className="bg-gradient-to-r from-green-500 to-emerald-600 text-white p-4">
+              <div className="flex items-center space-x-2">
+                <span className="text-xl">🌆</span>
+                <h4 className="text-lg font-bold">레벨업 기술 ({levelUpMoves.length}개)</h4>
+              </div>
+              <p className="text-green-100 text-sm mt-1">레벨업으로 자연스럽게 배우는 기술들</p>
+            </div>
+            <div className="p-4">
+              {levelUpMoves.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                  {levelUpMoves.map(({ move, level }) => (
+                    <div
+                      key={move.name}
+                      className="group bg-gray-50 dark:bg-slate-700 rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-slate-600 cursor-pointer transition-all duration-200 border border-transparent hover:border-green-300 dark:hover:border-green-500"
+                      onClick={() => loadMoveDetail(move.name)}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="inline-flex items-center px-2 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 text-xs font-medium rounded-full">
+                          🌳 레벨 {level}
+                        </span>
+                        {moveDetails[move.name] && (
+                          <span
+                            className={`pokemon-type text-xs ${PokemonService.getTypeColor(moveDetails[move.name].type.name)}`}
+                          >
+                            {PokemonService.getTypeKoreanName(moveDetails[move.name].type.name)}
+                          </span>
+                        )}
+                      </div>
+                      <div className="font-medium capitalize text-gray-900 dark:text-slate-100 group-hover:text-green-600 dark:group-hover:text-green-400">
+                        {move.name.replace(/-/g, ' ')}
+                      </div>
+                      {moveDetails[move.name] && (
+                        <div className="mt-2 space-y-1">
+                          <div className="flex items-center justify-between text-xs text-gray-600 dark:text-slate-400">
+                            <span className="flex items-center">
+                              {moveDetails[move.name].power ? (
+                                <><span className="text-red-500">💥</span> 위력: {moveDetails[move.name].power}</>
+                              ) : (
+                                <><span className="text-blue-500">🔘</span> {PokemonService.getDamageClassKoreanName(moveDetails[move.name].damage_class.name)}</>
+                              )}
+                            </span>
+                            <span className="flex items-center">
+                              <span className="text-purple-500">⚡</span> PP: {moveDetails[move.name].pp}
+                            </span>
+                          </div>
+                          {moveDetails[move.name].accuracy && (
+                            <div className="text-xs text-gray-600 dark:text-slate-400">
+                              <span className="text-orange-500">🎯</span> 명중률: {moveDetails[move.name].accuracy}%
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
-                  )}
+                  ))}
                 </div>
-              ))}
+              ) : (
+                <div className="text-center py-8 text-gray-500 dark:text-slate-400">
+                  <div className="text-4xl mb-2">🤷‍♂️</div>
+                  <p>레벨업으로 배우는 기술이 없습니다</p>
+                </div>
+              )}
             </div>
           </div>
-        )}
+
+          {/* 기술머신 기술 */}
+          {machineMoves.length > 0 && (
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-hidden shadow-sm">
+              <div className="bg-gradient-to-r from-blue-500 to-indigo-600 text-white p-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-xl">🔧</span>
+                  <h4 className="text-lg font-bold">기술머신 기술 ({machineMoves.length}개)</h4>
+                </div>
+                <p className="text-blue-100 text-sm mt-1">TM을 사용해서 배울 수 있는 기술들</p>
+              </div>
+              <div className="p-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                  {machineMoves.map(({ move }) => (
+                    <div
+                      key={move.name}
+                      className="group bg-gray-50 dark:bg-slate-700 rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-slate-600 cursor-pointer transition-all duration-200 border border-transparent hover:border-blue-300 dark:hover:border-blue-500"
+                      onClick={() => loadMoveDetail(move.name)}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="inline-flex items-center px-2 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-medium rounded-full">
+                          🔧 TM
+                        </span>
+                        {moveDetails[move.name] && (
+                          <span
+                            className={`pokemon-type text-xs ${PokemonService.getTypeColor(moveDetails[move.name].type.name)}`}
+                          >
+                            {PokemonService.getTypeKoreanName(moveDetails[move.name].type.name)}
+                          </span>
+                        )}
+                      </div>
+                      <div className="font-medium capitalize text-gray-900 dark:text-slate-100 group-hover:text-blue-600 dark:group-hover:text-blue-400">
+                        {move.name.replace(/-/g, ' ')}
+                      </div>
+                      {moveDetails[move.name] && (
+                        <div className="mt-2 space-y-1">
+                          <div className="flex items-center justify-between text-xs text-gray-600 dark:text-slate-400">
+                            <span className="flex items-center">
+                              {moveDetails[move.name].power ? (
+                                <><span className="text-red-500">💥</span> 위력: {moveDetails[move.name].power}</>
+                              ) : (
+                                <><span className="text-blue-500">🔘</span> {PokemonService.getDamageClassKoreanName(moveDetails[move.name].damage_class.name)}</>
+                              )}
+                            </span>
+                            <span className="flex items-center">
+                              <span className="text-purple-500">⚡</span> PP: {moveDetails[move.name].pp}
+                            </span>
+                          </div>
+                          {moveDetails[move.name].accuracy && (
+                            <div className="text-xs text-gray-600 dark:text-slate-400">
+                              <span className="text-orange-500">🎯</span> 명중률: {moveDetails[move.name].accuracy}%
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* 기타 방법으로 배우는 기술 */}
+          {otherMoves.length > 0 && (
+            <div className="bg-white dark:bg-slate-800 rounded-xl border border-gray-200 dark:border-slate-700 overflow-hidden shadow-sm">
+              <div className="bg-gradient-to-r from-purple-500 to-pink-600 text-white p-4">
+                <div className="flex items-center space-x-2">
+                  <span className="text-xl">✨</span>
+                  <h4 className="text-lg font-bold">기타 기술 ({otherMoves.length}개)</h4>
+                </div>
+                <p className="text-purple-100 text-sm mt-1">특별한 방법으로 배우는 기술들</p>
+              </div>
+              <div className="p-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+                  {otherMoves.map(({ move, method }) => (
+                    <div
+                      key={move.name}
+                      className="group bg-gray-50 dark:bg-slate-700 rounded-lg p-3 hover:bg-gray-100 dark:hover:bg-slate-600 cursor-pointer transition-all duration-200 border border-transparent hover:border-purple-300 dark:hover:border-purple-500"
+                      onClick={() => loadMoveDetail(move.name)}
+                    >
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="inline-flex items-center px-2 py-1 bg-purple-100 dark:bg-purple-900 text-purple-800 dark:text-purple-200 text-xs font-medium rounded-full">
+                          ✨ {PokemonService.getLearnMethodKoreanName(method)}
+                        </span>
+                        {moveDetails[move.name] && (
+                          <span
+                            className={`pokemon-type text-xs ${PokemonService.getTypeColor(moveDetails[move.name].type.name)}`}
+                          >
+                            {PokemonService.getTypeKoreanName(moveDetails[move.name].type.name)}
+                          </span>
+                        )}
+                      </div>
+                      <div className="font-medium capitalize text-gray-900 dark:text-slate-100 group-hover:text-purple-600 dark:group-hover:text-purple-400">
+                        {move.name.replace(/-/g, ' ')}
+                      </div>
+                      {moveDetails[move.name] && (
+                        <div className="mt-2 space-y-1">
+                          <div className="flex items-center justify-between text-xs text-gray-600 dark:text-slate-400">
+                            <span className="flex items-center">
+                              {moveDetails[move.name].power ? (
+                                <><span className="text-red-500">💥</span> 위력: {moveDetails[move.name].power}</>
+                              ) : (
+                                <><span className="text-blue-500">🔘</span> {PokemonService.getDamageClassKoreanName(moveDetails[move.name].damage_class.name)}</>
+                              )}
+                            </span>
+                            <span className="flex items-center">
+                              <span className="text-purple-500">⚡</span> PP: {moveDetails[move.name].pp}
+                            </span>
+                          </div>
+                          {moveDetails[move.name].accuracy && (
+                            <div className="text-xs text-gray-600 dark:text-slate-400">
+                              <span className="text-orange-500">🎯</span> 명중률: {moveDetails[move.name].accuracy}%
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 통계 요약 */}
+        <div className="mt-8 bg-gradient-to-r from-gray-50 to-gray-100 dark:from-slate-800 dark:to-slate-700 rounded-xl p-6">
+          <div className="text-center">
+            <h4 className="text-lg font-semibold text-gray-800 dark:text-slate-200 mb-4">기술 학습 통계</h4>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-gray-200 dark:border-slate-600">
+                <div className="text-2xl font-bold text-green-600 dark:text-green-400">{levelUpMoves.length}</div>
+                <div className="text-sm text-gray-600 dark:text-slate-400">레벨업 기술</div>
+              </div>
+              <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-gray-200 dark:border-slate-600">
+                <div className="text-2xl font-bold text-blue-600 dark:text-blue-400">{machineMoves.length}</div>
+                <div className="text-sm text-gray-600 dark:text-slate-400">기술머신 기술</div>
+              </div>
+              <div className="bg-white dark:bg-slate-800 rounded-lg p-4 border border-gray-200 dark:border-slate-600">
+                <div className="text-2xl font-bold text-purple-600 dark:text-purple-400">{levelUpMoves.length + machineMoves.length + otherMoves.length}</div>
+                <div className="text-sm text-gray-600 dark:text-slate-400">총 기술 수</div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     );
   };
