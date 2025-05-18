@@ -47,6 +47,15 @@ export function PokemonDex() {
     setActiveModal('detail');
   };
 
+  const handlePokemonSelectFromEvolution = (pokemonId: number) => {
+    setSelectedPokemon({ id: pokemonId } as Pokemon);
+    // 날짜 모달을 닫았다가 새로운 포켓몬으로 다시 열기
+    setActiveModal(null);
+    setTimeout(() => {
+      setActiveModal('detail');
+    }, 100);
+  };
+
   const handleGenerationChange = (generation: any) => {
     changeGeneration(generation);
   };
@@ -143,6 +152,7 @@ export function PokemonDex() {
               pokemon={detailPokemon}
               species={species}
               onClose={handleCloseModal}
+              onPokemonSelect={handlePokemonSelectFromEvolution}
             />
           ) : null}
         </>

@@ -6,9 +6,10 @@ interface PokemonDetailProps {
   pokemon: Pokemon;
   species?: PokemonSpecies | null;
   onClose: () => void;
+  onPokemonSelect?: (pokemonId: number) => void;
 }
 
-export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps) {
+export function PokemonDetail({ pokemon, species, onClose, onPokemonSelect }: PokemonDetailProps) {
   const [fullDetail, setFullDetail] = useState<PokemonDetailType | null>(null);
   const [selectedTab, setSelectedTab] = useState<'info' | 'evolution' | 'moves'>('info');
   const [moveDetails, setMoveDetails] = useState<{ [key: string]: Move }>({});
@@ -33,6 +34,13 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
 
     loadFullDetail();
   }, [pokemon.id]);
+
+  // 진화 체인에서 포켓몬 선택 핸들러
+  const handlePokemonSelect = async (pokemonName: string, pokemonId: string) => {
+    if (onPokemonSelect) {
+      onPokemonSelect(parseInt(pokemonId));
+    }
+  };
 
   // 기술 상세 정보 로드
   const loadMoveDetail = async (moveName: string) => {
@@ -217,6 +225,7 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                         key={`${pokemon.name}-${index}`}
                         className="bg-white dark:bg-slate-800 rounded-2xl border-2 border-gray-200 dark:border-slate-600 p-6 hover:shadow-xl hover:scale-105 transition-all duration-300 cursor-pointer group"
                         style={{ width: '180px' }}
+                        onClick={() => handlePokemonSelect(pokemon.name, pokemon.id)}
                       >
                         <div className="text-center">
                           {/* 포켓몬 이미지 */}
