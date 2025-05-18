@@ -1,12 +1,21 @@
 import React from 'react';
 import { useSearch } from '../hooks/usePokemon';
+import { PokemonService } from '../services/pokemonService';
 
 interface SearchBarProps {
   onPokemonSelect: (pokemonId: number) => void;
 }
 
 export function SearchBar({ onPokemonSelect }: SearchBarProps) {
-  const { searchTerm, setSearchTerm, searchResult, searchLoading, searchError, clearSearch } = useSearch();
+  const { 
+    searchTerm, 
+    setSearchTerm, 
+    searchResult, 
+    searchSpecies,
+    searchLoading, 
+    searchError, 
+    clearSearch 
+  } = useSearch();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,6 +24,8 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
       clearSearch();
     }
   };
+
+  const koreanName = searchResult ? PokemonService.getKoreanName(searchResult, searchSpecies) : '';
 
   return (
     <div className="w-full max-w-md mx-auto mb-8">
@@ -54,20 +65,20 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
           <div className="flex items-center space-x-3">
             <img
               src={searchResult.sprites.front_default}
-              alt={searchResult.name}
+              alt={koreanName}
               className="w-16 h-16"
             />
             <div className="flex-1">
               <h3 className="font-semibold text-lg">
-                #{searchResult.id.toString().padStart(3, '0')} {searchResult.name}
+                #{searchResult.id.toString().padStart(3, '0')} {koreanName}
               </h3>
               <div className="flex space-x-2 mt-1">
                 {searchResult.types.map((type) => (
                   <span
                     key={type.type.name}
-                    className={`pokemon-type ${getTypeColor(type.type.name)}`}
+                    className={`pokemon-type ${PokemonService.getTypeColor(type.type.name)}`}
                   >
-                    {getTypeKoreanName(type.type.name)}
+                    {PokemonService.getTypeKoreanName(type.type.name)}
                   </span>
                 ))}
               </div>
@@ -86,52 +97,4 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
       )}
     </div>
   );
-}
-
-function getTypeColor(type: string): string {
-  const typeColors: { [key: string]: string } = {
-    normal: 'type-normal',
-    fighting: 'type-fighting',
-    flying: 'type-flying',
-    poison: 'type-poison',
-    ground: 'type-ground',
-    rock: 'type-rock',
-    bug: 'type-bug',
-    ghost: 'type-ghost',
-    steel: 'type-steel',
-    fire: 'type-fire',
-    water: 'type-water',
-    grass: 'type-grass',
-    electric: 'type-electric',
-    psychic: 'type-psychic',
-    ice: 'type-ice',
-    dragon: 'type-dragon',
-    dark: 'type-dark',
-    fairy: 'type-fairy',
-  };
-  return typeColors[type] || 'type-normal';
-}
-
-function getTypeKoreanName(type: string): string {
-  const typeNames: { [key: string]: string } = {
-    normal: '노말',
-    fighting: '격투',
-    flying: '비행',
-    poison: '독',
-    ground: '땅',
-    rock: '바위',
-    bug: '벌레',
-    ghost: '고스트',
-    steel: '강철',
-    fire: '불꽃',
-    water: '물',
-    grass: '풀',
-    electric: '전기',
-    psychic: '에스퍼',
-    ice: '얼음',
-    dragon: '드래곤',
-    dark: '악',
-    fairy: '페어리',
-  };
-  return typeNames[type] || type;
 }

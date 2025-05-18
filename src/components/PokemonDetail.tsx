@@ -9,7 +9,7 @@ interface PokemonDetailProps {
 }
 
 export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps) {
-  const koreanName = species ? PokemonService.getKoreanName(species) : pokemon.name;
+  const koreanName = PokemonService.getKoreanName(pokemon, species);
   const flavorText = species ? PokemonService.getKoreanFlavorText(species) : '';
 
   const handleBackdropClick = (e: React.MouseEvent) => {
@@ -42,19 +42,19 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
             <div className="text-center">
               <img
                 src={pokemon.sprites.other['official-artwork']?.front_default || pokemon.sprites.front_default}
-                alt={pokemon.name}
+                alt={koreanName}
                 className="w-64 h-64 object-contain mx-auto mb-4"
               />
               <div className="flex justify-center space-x-4">
                 <img
                   src={pokemon.sprites.front_default}
-                  alt={`${pokemon.name} 기본`}
+                  alt={`${koreanName} 기본`}
                   className="w-16 h-16 border border-gray-200 rounded"
                 />
                 {pokemon.sprites.front_shiny && (
                   <img
                     src={pokemon.sprites.front_shiny}
-                    alt={`${pokemon.name} 색이 다른`}
+                    alt={`${koreanName} 색이 다른`}
                     className="w-16 h-16 border border-gray-200 rounded"
                   />
                 )}
@@ -66,6 +66,10 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
               <div>
                 <h3 className="text-lg font-semibold mb-2">기본 정보</h3>
                 <div className="space-y-2">
+                  <div className="flex justify-between">
+                    <span className="text-gray-600">영문명:</span>
+                    <span className="capitalize">{pokemon.name}</span>
+                  </div>
                   <div className="flex justify-between">
                     <span className="text-gray-600">타입:</span>
                     <div className="flex space-x-1">

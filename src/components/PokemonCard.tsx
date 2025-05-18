@@ -1,19 +1,22 @@
 import React from 'react';
-import { Pokemon } from '../types/pokemon';
+import { Pokemon, PokemonSpecies } from '../types/pokemon';
 import { PokemonService } from '../services/pokemonService';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
+  species?: PokemonSpecies | null;
   onClick: () => void;
 }
 
-export function PokemonCard({ pokemon, onClick }: PokemonCardProps) {
+export function PokemonCard({ pokemon, species, onClick }: PokemonCardProps) {
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const img = e.target as HTMLImageElement;
     if (img.src !== pokemon.sprites.front_default) {
       img.src = pokemon.sprites.front_default;
     }
   };
+
+  const koreanName = PokemonService.getKoreanName(pokemon, species);
 
   return (
     <div
@@ -28,14 +31,14 @@ export function PokemonCard({ pokemon, onClick }: PokemonCardProps) {
         <div className="flex justify-center mb-4">
           <img
             src={pokemon.sprites.other['official-artwork']?.front_default || pokemon.sprites.front_default}
-            alt={pokemon.name}
+            alt={koreanName}
             className="w-24 h-24 object-contain"
             onError={handleImageError}
           />
         </div>
         
-        <h3 className="text-xl font-bold text-center mb-2 capitalize">
-          {pokemon.name}
+        <h3 className="text-xl font-bold text-center mb-2">
+          {koreanName}
         </h3>
         
         <div className="flex flex-wrap justify-center gap-2">

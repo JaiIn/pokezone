@@ -15,7 +15,7 @@ interface PokemonCardWrapperProps {
 }
 
 function PokemonCardWrapper({ pokemonItem, onPokemonClick }: PokemonCardWrapperProps) {
-  const { pokemon, loading, error } = usePokemon(pokemonItem.name);
+  const { pokemon, species, loading, error } = usePokemon(pokemonItem.name);
 
   if (loading) {
     return (
@@ -39,6 +39,7 @@ function PokemonCardWrapper({ pokemonItem, onPokemonClick }: PokemonCardWrapperP
   return (
     <PokemonCard
       pokemon={pokemon}
+      species={species}
       onClick={() => onPokemonClick(pokemon)}
     />
   );

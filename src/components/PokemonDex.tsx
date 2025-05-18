@@ -3,13 +3,24 @@ import { usePokemonList, usePokemon } from '../hooks/usePokemon';
 import { Pokemon } from '../types/pokemon';
 import { Header } from './Header';
 import { SearchBar } from './SearchBar';
+import { GenerationSelector } from './GenerationSelector';
 import { PokemonGrid } from './PokemonGrid';
 import { PokemonDetail } from './PokemonDetail';
 import { LoadingSpinner } from './LoadingSpinner';
 import { ErrorMessage } from './ErrorMessage';
 
 export function PokemonDex() {
-  const { pokemonList, loading, error, hasMore, loadMore, reset } = usePokemonList(20);
+  const { 
+    pokemonList, 
+    loading, 
+    error, 
+    hasMore, 
+    currentGeneration,
+    loadMore, 
+    changeGeneration,
+    reset 
+  } = usePokemonList(20);
+  
   const [selectedPokemon, setSelectedPokemon] = useState<Pokemon | null>(null);
   const { pokemon: detailPokemon, species, loading: detailLoading } = usePokemon(
     selectedPokemon ? selectedPokemon.id : null
@@ -28,6 +39,10 @@ export function PokemonDex() {
     setSelectedPokemon({ id: pokemonId } as Pokemon);
   };
 
+  const handleGenerationChange = (generation: any) => {
+    changeGeneration(generation);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -35,10 +50,26 @@ export function PokemonDex() {
       <div className="container mx-auto px-4">
         <SearchBar onPokemonSelect={handleSearchSelect} />
         
+        <GenerationSelector 
+          selectedGeneration={currentGeneration}
+          onGenerationChange={handleGenerationChange}
+        />
+        
         {error ? (
           <ErrorMessage message={error} onRetry={reset} />
         ) : (
           <>
+            <div className="text-center mb-6">
+              <h2 className="text-2xl font-semibold text-gray-700">
+                {currentGeneration.koreanName}
+              </h2>
+              {currentGeneration.id !== 0 && (
+                <p className="text-gray-500 text-sm mt-1">
+                  #{currentGeneration.startId} - #{currentGeneration.endId}
+                </p>
+              )}
+            </div>
+            
             <PokemonGrid 
               pokemonList={pokemonList} 
               onPokemonClick={handlePokemonClick}
