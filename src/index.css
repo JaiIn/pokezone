@@ -3,12 +3,37 @@
 @tailwind utilities;
 
 @layer base {
+  :root {
+    --color-background: 255 255 255;
+    --color-foreground: 0 0 0;
+    --color-card: 255 255 255;
+    --color-card-foreground: 0 0 0;
+    --color-primary: 59 130 246;
+    --color-secondary: 156 163 175;
+    --color-muted: 248 250 252;
+    --color-border: 229 231 235;
+  }
+
+  .dark {
+    --color-background: 15 23 42;
+    --color-foreground: 248 250 252;
+    --color-card: 30 41 59;
+    --color-card-foreground: 248 250 252;
+    --color-primary: 96 165 250;
+    --color-secondary: 100 116 139;
+    --color-muted: 51 65 85;
+    --color-border: 71 85 105;
+  }
+
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
       'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: rgb(var(--color-background));
+    color: rgb(var(--color-foreground));
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
   code {
@@ -19,7 +44,10 @@
 
 @layer components {
   .pokemon-card {
-    @apply bg-white rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2;
+    @apply bg-white dark:bg-slate-700 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2;
+    background-color: rgb(var(--color-card));
+    color: rgb(var(--color-card-foreground));
+    border: 1px solid rgb(var(--color-border));
   }
   
   .pokemon-type {
@@ -27,10 +55,51 @@
   }
   
   .loading-spinner {
-    @apply animate-spin rounded-full border-4 border-gray-300 border-t-blue-600;
+    @apply animate-spin rounded-full border-4 border-gray-300 dark:border-slate-600 border-t-blue-600 dark:border-t-blue-400;
+  }
+
+  .btn-primary {
+    @apply bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+
+  .btn-secondary {
+    @apply bg-gray-500 hover:bg-gray-600 dark:bg-slate-600 dark:hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition-colors duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100;
+  }
+
+  .select-field {
+    @apply w-full px-4 py-2 border border-gray-300 dark:border-slate-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white dark:bg-slate-700 text-gray-900 dark:text-slate-100;
+  }
+
+  .modal-backdrop {
+    @apply fixed inset-0 bg-black bg-opacity-50 dark:bg-opacity-70;
+  }
+
+  .modal-content {
+    @apply bg-white dark:bg-slate-800 rounded-lg text-gray-900 dark:text-slate-100;
+  }
+
+  .card {
+    @apply bg-white dark:bg-slate-700 border border-gray-200 dark:border-slate-600 rounded-lg p-4 shadow-sm;
+  }
+
+  .text-muted {
+    @apply text-gray-600 dark:text-slate-400;
+  }
+
+  .border-muted {
+    @apply border-gray-200 dark:border-slate-600;
+  }
+
+  .bg-muted {
+    @apply bg-gray-50 dark:bg-slate-800;
   }
 }
 
+/* 포켓몬 타입별 색상은 다크모드에서도 동일하게 유지 */
 .type-normal { @apply bg-gray-400; }
 .type-fighting { @apply bg-red-700; }
 .type-flying { @apply bg-indigo-400; }
@@ -49,3 +118,20 @@
 .type-dragon { @apply bg-indigo-700; }
 .type-dark { @apply bg-gray-800; }
 .type-fairy { @apply bg-pink-300; }
+
+/* 스크롤바 스타일링 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-slate-700;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-400 dark:bg-slate-500 rounded;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-500 dark:bg-slate-400;
+}

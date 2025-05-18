@@ -20,17 +20,17 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
 
   return (
     <div 
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50"
+      className="modal-backdrop flex items-center justify-center p-4 z-50"
       onClick={handleBackdropClick}
     >
-      <div className="bg-white rounded-lg max-w-2xl w-full max-h-screen overflow-y-auto">
-        <div className="sticky top-0 bg-white border-b border-gray-200 p-4 flex justify-between items-center">
+      <div className="modal-content max-w-2xl w-full max-h-screen overflow-y-auto">
+        <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-muted p-4 flex justify-between items-center">
           <h2 className="text-2xl font-bold">
             #{PokemonService.formatPokemonId(pokemon.id)} {koreanName}
           </h2>
           <button
             onClick={onClose}
-            className="text-gray-500 hover:text-gray-700 text-2xl"
+            className="text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 text-2xl"
           >
             ✕
           </button>
@@ -49,13 +49,13 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                 <img
                   src={pokemon.sprites.front_default}
                   alt={`${koreanName} 기본`}
-                  className="w-16 h-16 border border-gray-200 rounded"
+                  className="w-16 h-16 border border-muted rounded"
                 />
                 {pokemon.sprites.front_shiny && (
                   <img
                     src={pokemon.sprites.front_shiny}
                     alt={`${koreanName} 색이 다른`}
-                    className="w-16 h-16 border border-gray-200 rounded"
+                    className="w-16 h-16 border border-muted rounded"
                   />
                 )}
               </div>
@@ -67,11 +67,11 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                 <h3 className="text-lg font-semibold mb-2">기본 정보</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <span className="text-gray-600">영문명:</span>
+                    <span className="text-muted">영문명:</span>
                     <span className="capitalize">{pokemon.name}</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">타입:</span>
+                    <span className="text-muted">타입:</span>
                     <div className="flex space-x-1">
                       {pokemon.types.map((type) => (
                         <span
@@ -84,15 +84,15 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                     </div>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">키:</span>
+                    <span className="text-muted">키:</span>
                     <span>{(pokemon.height / 10).toFixed(1)}m</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">몸무게:</span>
+                    <span className="text-muted">몸무게:</span>
                     <span>{(pokemon.weight / 10).toFixed(1)}kg</span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="text-gray-600">기초 경험치:</span>
+                    <span className="text-muted">기초 경험치:</span>
                     <span>{pokemon.base_experience}</span>
                   </div>
                 </div>
@@ -104,7 +104,7 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
                 <div className="space-y-1">
                   {pokemon.abilities.map((ability, index) => (
                     <div key={index} className="flex justify-between">
-                      <span className="text-gray-600">
+                      <span className="text-muted">
                         {ability.is_hidden ? '숨겨진 특성:' : '특성:'}
                       </span>
                       <span className="capitalize">{ability.ability.name}</span>
@@ -117,7 +117,7 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
               {flavorText && (
                 <div>
                   <h3 className="text-lg font-semibold mb-2">설명</h3>
-                  <p className="text-gray-700 leading-relaxed">{flavorText}</p>
+                  <p className="text-gray-700 dark:text-slate-300 leading-relaxed">{flavorText}</p>
                 </div>
               )}
             </div>
@@ -130,21 +130,21 @@ export function PokemonDetail({ pokemon, species, onClose }: PokemonDetailProps)
               {pokemon.stats.map((stat) => (
                 <div key={stat.stat.name}>
                   <div className="flex justify-between items-center mb-1">
-                    <span className="text-gray-600">
+                    <span className="text-muted">
                       {PokemonService.getStatKoreanName(stat.stat.name)}
                     </span>
                     <span className="font-semibold">{stat.base_stat}</span>
                   </div>
-                  <div className="w-full bg-gray-200 rounded-full h-2">
+                  <div className="w-full bg-gray-200 dark:bg-slate-600 rounded-full h-2">
                     <div
-                      className="bg-blue-500 h-2 rounded-full transition-all duration-500"
+                      className="bg-blue-500 dark:bg-blue-400 h-2 rounded-full transition-all duration-500"
                       style={{ width: `${Math.min(100, (stat.base_stat / 200) * 100)}%` }}
                     ></div>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="mt-4 text-sm text-gray-500">
+            <div className="mt-4 text-sm text-muted">
               총 능력치: {pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0)}
             </div>
           </div>

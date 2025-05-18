@@ -9,7 +9,7 @@ interface GenerationSelectorProps {
 export function GenerationSelector({ selectedGeneration, onGenerationChange }: GenerationSelectorProps) {
   return (
     <div className="w-full max-w-xs mx-auto mb-6">
-      <label htmlFor="generation-select" className="block text-sm font-medium text-gray-700 mb-2">
+      <label htmlFor="generation-select" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
         세대 선택
       </label>
       <select
@@ -22,7 +22,7 @@ export function GenerationSelector({ selectedGeneration, onGenerationChange }: G
             onGenerationChange(generation);
           }
         }}
-        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+        className="select-field"
       >
         {GENERATIONS.map((generation) => (
           <option key={generation.id} value={generation.id}>

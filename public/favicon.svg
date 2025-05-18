@@ -1,0 +1,16 @@
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="16" height="16" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- 몬스터볼 디자인 -->
+  <!-- 하단 흰색 -->
+  <path d="M50 50 A 40 40 0 0 1 10 50 A 40 40 0 0 1 50 10 Z" fill="#ffffff"/>
+  <!-- 상단 빨간색 -->
+  <path d="M50 50 A 40 40 0 0 1 90 50 A 40 40 0 0 1 50 90 Z" fill="#FF4444"/>
+  <!-- 중앙 검은 띠 -->
+  <rect x="10" y="45" width="80" height="10" fill="#2D2D2D"/>
+  <!-- 중앙 흰색 원 -->
+  <circle cx="50" cy="50" r="12" fill="#ffffff" stroke="#2D2D2D" stroke-width="2"/>
+  <!-- 중앙 내부 흰색 원 -->
+  <circle cx="50" cy="50" r="8" fill="#ffffff"/>
+  <!-- 하이라이트 -->
+  <ellipse cx="40" cy="30" rx="8" ry="12" fill="#FF8888" opacity="0.6"/>
+</svg>

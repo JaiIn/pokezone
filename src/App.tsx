@@ -1,11 +1,14 @@
 import React from 'react';
+import { ThemeProvider } from './contexts/ThemeContext';
 import { PokemonDex } from './components/PokemonDex';
 
 function App() {
   return (
-    <div className="App">
-      <PokemonDex />
-    </div>
+    <ThemeProvider>
+      <div className="App">
+        <PokemonDex />
+      </div>
+    </ThemeProvider>
   );
 }
 
