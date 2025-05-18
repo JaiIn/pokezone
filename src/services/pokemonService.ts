@@ -1,4 +1,4 @@
-import { Pokemon, PokemonListResponse, PokemonSpecies, Generation, GENERATIONS } from '../types/pokemon';
+import { Pokemon, PokemonListResponse, PokemonSpecies, Generation, GENERATIONS, EvolutionChain, Move, PokemonDetail } from '../types/pokemon';
 
 const BASE_URL = 'https://pokeapi.co/api/v2';
 
@@ -413,5 +413,104 @@ export class PokemonService {
     return GENERATIONS.find(gen => 
       gen.id !== 0 && id >= gen.startId && id <= gen.endId
     ) || null;
+  }
+
+  // 진화 체인 정보 가져오기
+  static async getEvolutionChain(url: string): Promise<EvolutionChain> {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error('진화 체인 정보를 가져오는데 실패했습니다.');
+    }
+    return response.json();
+  }
+
+  // 기술 정보 가져오기
+  static async getMove(nameOrId: string | number): Promise<Move> {
+    const response = await fetch(`${BASE_URL}/move/${nameOrId}`);
+    if (!response.ok) {
+      throw new Error('기술 정보를 가져오는데 실패했습니다.');
+    }
+    return response.json();
+  }
+
+  // 포켓몬 상세 정보 가져오기 (진화체인 + 기술 포함)
+  static async getPokemonDetail(nameOrId: string | number): Promise<PokemonDetail> {
+    const pokemon = await this.getPokemon(nameOrId);
+    const species = await this.getPokemonSpecies(pokemon.id);
+    
+    let evolutionChain: EvolutionChain | undefined;
+    
+    try {
+      evolutionChain = await this.getEvolutionChain(species.evolution_chain.url);
+    } catch (error) {
+      console.warn('진화 체인 정보를 가져오는데 실패했습니다:', error);
+    }
+    
+    return {
+      ...pokemon,
+      species,
+      evolutionChain
+    };
+  }
+
+  // 진화 체인에서 포켓몬 이름들 추출
+  static extractEvolutionChain(chain: EvolutionChain): string[][] {
+    const evolutionStages: string[][] = [];
+    
+    const extractFromChain = (detail: any, stage: number = 0) => {
+      if (!evolutionStages[stage]) {
+        evolutionStages[stage] = [];
+      }
+      evolutionStages[stage].push(detail.species.name);
+      
+      if (detail.evolves_to && detail.evolves_to.length > 0) {
+        detail.evolves_to.forEach((evolution: any) => {
+          extractFromChain(evolution, stage + 1);
+        });
+      }
+    };
+    
+    extractFromChain(chain.chain);
+    return evolutionStages;
+  }
+
+  // 기술 학습 방법 한국어 번역
+  static getLearnMethodKoreanName(method: string): string {
+    const methodNames: { [key: string]: string } = {
+      'level-up': '레벨업',
+      'egg': '알',
+      'tutor': '기술가르침',
+      'machine': '기술머신',
+      'stadium-surfing-pikachu': '특별',
+      'light-ball-egg': '특별',
+      'colosseum-purification': '특별',
+      'xd-shadow': '특별',
+      'xd-purification': '특별',
+      'form-change': '폼체인지'
+    };
+    return methodNames[method] || method;
+  }
+
+  // 기술 한국어 이름 가져오기
+  static getMoveKoreanName(move: Move): string {
+    const koreanName = move.names.find(name => name.language.name === 'ko');
+    return koreanName ? koreanName.name : move.name;
+  }
+
+  // 물리/특수/변화 분류 한국어 번역
+  static getDamageClassKoreanName(damageClass: string): string {
+    const classNames: { [key: string]: string } = {
+      'physical': '물리',
+      'special': '특수',
+      'status': '변화'
+    };
+    return classNames[damageClass] || damageClass;
+  }
+
+  // 포켓몬 이름으로 ID 찾기 (간단한 구현)
+  static getIdFromName(name: string): number {
+    // 이 메서드는 더 복잡한 로직이 필요하지만, 임시로 간단한 구현
+    // 실제로는 추가 API 호출이나 캐시된 데이터가 필요
+    return 1; // 기본값
   }
 }
