@@ -130,7 +130,7 @@ export function PokemonDex() {
                   onClick={loadMore}
                   className="btn-primary"
                 >
-                  더 많은 포켓몬 보기
+                  더 많은 포켓몬 보기 ({pokemonList.length}/{currentGeneration.id === 0 ? 1025 : currentGeneration.endId - currentGeneration.startId + 1})
                 </button>
               </div>
             )}

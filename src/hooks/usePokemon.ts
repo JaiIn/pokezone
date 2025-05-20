@@ -30,13 +30,27 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
       }
       
       if (isLoadMore) {
-        setPokemonList(prev => [...prev, ...response.results]);
+        // 중복 포켓몬 방지를 위해 고유한 포켓몬만 추가
+        const existingNames = new Set(pokemonList.map(p => p.name));
+        const newPokemons = response.results.filter(p => !existingNames.has(p.name));
+        setPokemonList(prev => [...prev, ...newPokemons]);
       } else {
         setPokemonList(response.results);
       }
       
       setOffset(currentOffset + limit);
+      
+      // 다음 페이지 여부 확인 (next가 null이 아닐 때만 더 로드 가능)
       setHasMore(response.next !== null);
+      
+      // 현재 포켓몬 세대에서 더 로드할 포켓몬이 없는지 중복 확인
+      const hasReachedEnd = response.results.length === 0 || 
+                        (targetGeneration.id !== 0 && 
+                         currentOffset + limit >= targetGeneration.endId - targetGeneration.startId + 1);
+                         
+      if (hasReachedEnd) {
+        setHasMore(false);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.');
     } finally {
@@ -54,7 +68,17 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
     setCurrentGeneration(generation);
     setOffset(0);
     setPokemonList([]);
-    setHasMore(true);
+    
+    // 특정 세대를 선택했을 때는 해당 세대의 포켓몬 수를 고려하여 hasMore 설정
+    if (generation.id !== 0) {
+      // 전체 포켓몬 수가 limit보다 작을 때는 추가 로드 불가
+      const totalPokemon = generation.endId - generation.startId + 1;
+      setHasMore(totalPokemon > limit);
+    } else {
+      // 전체 세대를 선택했을 때는 항상 더 로드 가능
+      setHasMore(true);
+    }
+    
     loadPokemon(false, generation);
   };
 

@@ -735,9 +735,15 @@ export class PokemonService {
       });
     }
     
+    // endId가 현재 세대의 마지막 포켓몬이더라도,
+    // 특정 세대를 선택했을 때 offset이 합리적인 범위 내에 있다면
+    // next 값을 제공하여 "더 많은 포켓몬 보기" 버튼이 작동하도록 합니다
+    // 실제 다음 페이지가 있는 경우에만 next가 URL을 반환하도록 합니다
+    const hasNextPage = startId + limit <= generation.endId;
+    
     return {
       count: generation.endId - generation.startId + 1,
-      next: endId < generation.endId ? `next-page` : null,
+      next: hasNextPage ? `next-page` : null,
       previous: offset > 0 ? `prev-page` : null,
       results
     };
