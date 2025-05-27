@@ -88,14 +88,14 @@ export function PokemonDex() {
               className="btn-primary flex items-center space-x-2"
             >
               <span>⚔️</span>
-              <span>포켓몬 비교</span>
+              <span>Pokemon Compare</span>
             </button>
             <button
               onClick={handleWorldCupClick}
               className="btn-secondary flex items-center space-x-2"
             >
               <span>🏆</span>
-              <span>월드컵</span>
+              <span>World Cup</span>
             </button>
           </div>
         </div>
@@ -121,7 +121,7 @@ export function PokemonDex() {
             />
             
             {loading && (
-              <LoadingSpinner message="포켓몬을 불러오는 중..." />
+              <LoadingSpinner message="Loading Pokemon..." />
             )}
             
             {!loading && hasMore && pokemonList.length > 0 && (
@@ -130,7 +130,7 @@ export function PokemonDex() {
                   onClick={loadMore}
                   className="btn-primary"
                 >
-                  더 많은 포켓몬 보기 ({pokemonList.length}/{currentGeneration.id === 0 ? 1025 : currentGeneration.endId - currentGeneration.startId + 1})
+                  Load More Pokemon ({pokemonList.length}/{currentGeneration.id === 0 ? 1025 : currentGeneration.endId - currentGeneration.startId + 1})
                 </button>
               </div>
             )}
@@ -144,7 +144,7 @@ export function PokemonDex() {
           {detailLoading ? (
             <div className="modal-backdrop flex items-center justify-center z-50">
               <div className="modal-content p-8">
-                <LoadingSpinner message="포켓몬 정보를 불러오는 중..." />
+                <LoadingSpinner message="Loading Pokemon information..." />
               </div>
             </div>
           ) : detailPokemon ? (
@@ -172,10 +172,10 @@ export function PokemonDex() {
       <footer className="bg-gray-800 dark:bg-slate-900 text-white py-8 mt-16 border-t border-gray-200 dark:border-slate-700">
         <div className="container mx-auto px-4 text-center">
           <p className="text-gray-300 dark:text-slate-400">
-            데이터 제공: <a href="https://pokeapi.co/" className="text-blue-400 hover:text-blue-300">PokeAPI</a>
+            Data provided by: <a href="https://pokeapi.co/" className="text-blue-400 hover:text-blue-300">PokeAPI</a>
           </p>
           <p className="text-gray-400 dark:text-slate-500 text-sm mt-2">
-            이 앱은 PokeAPI를 사용하여 제작되었습니다.
+            This app was created using PokeAPI.
           </p>
         </div>
       </footer>

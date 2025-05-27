@@ -19,7 +19,7 @@ export function PokemonDetail({ pokemon, species, onClose, onPokemonSelect }: Po
   const [moveDetails, setMoveDetails] = useState<{ [key: string]: Move }>({});
   const [loading, setLoading] = useState(false);
 
-  const koreanName = PokemonService.getKoreanName(pokemon, species);
+  const displayName = PokemonService.getDisplayName(pokemon, species);
 
   // 상세 정보 로드
   useEffect(() => {
@@ -68,7 +68,7 @@ export function PokemonDetail({ pokemon, species, onClose, onPokemonSelect }: Po
       return (
         <div className="text-center py-8">
           <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-blue-500"></div>
-          <p className="mt-2 text-muted">상세 정보를 로드하는 중...</p>
+          <p className="mt-2 text-muted">Loading detailed information...</p>
         </div>
       );
     }
@@ -94,7 +94,7 @@ export function PokemonDetail({ pokemon, species, onClose, onPokemonSelect }: Po
         {/* 헤더 */}
         <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-muted p-4 flex justify-between items-center">
           <h2 className="text-2xl font-bold">
-            #{PokemonService.formatPokemonId(pokemon.id)} {koreanName}
+            #{PokemonService.formatPokemonId(pokemon.id)} {displayName}
           </h2>
           <button
             onClick={onClose}

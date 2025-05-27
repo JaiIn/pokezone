@@ -56,7 +56,7 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
     <div className="modal-backdrop flex items-center justify-center p-4 z-50">
       <div className="modal-content max-w-6xl w-full max-h-screen overflow-y-auto">
         <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-muted p-6 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">포켓몬 비교 ⚔️</h2>
+          <h2 className="text-2xl font-bold">Pokemon Comparison ⚔️</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 text-2xl"
@@ -67,18 +67,18 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
 
         <div className="p-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
-            {/* 포켓몬 1 선택 */}
+            {/* Pokemon 1 Selection */}
             <div className="text-center">
-              <h3 className="text-lg font-semibold mb-4">첫 번째 포켓몬</h3>
+              <h3 className="text-lg font-semibold mb-4">First Pokemon</h3>
               {pokemon1 ? (
                 <div className="card p-4">
                   <img
                     src={pokemon1.sprites.other['official-artwork']?.front_default || pokemon1.sprites.front_default}
-                    alt={PokemonService.getKoreanName(pokemon1, species1)}
+                    alt={PokemonService.getDisplayName(pokemon1, species1)}
                     className="w-32 h-32 object-contain mx-auto mb-4"
                   />
                   <h4 className="text-xl font-bold">
-                    #{PokemonService.formatPokemonId(pokemon1.id)} {PokemonService.getKoreanName(pokemon1, species1)}
+                    #{PokemonService.formatPokemonId(pokemon1.id)} {PokemonService.getDisplayName(pokemon1, species1)}
                   </h4>
                   <div className="flex justify-center space-x-2 mt-2">
                     {pokemon1.types.map((type) => (
@@ -86,7 +86,7 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                         key={type.type.name}
                         className={`pokemon-type text-xs ${PokemonService.getTypeColor(type.type.name)}`}
                       >
-                        {PokemonService.getTypeKoreanName(type.type.name)}
+                        {PokemonService.formatTypeName(type.type.name)}
                       </span>
                     ))}
                   </div>
@@ -94,29 +94,29 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                     onClick={() => setPokemon1(null)}
                     className="mt-4 text-sm text-blue-500 hover:text-blue-700"
                   >
-                    다른 포켓몬 선택
+                    Select Different Pokemon
                   </button>
                 </div>
               ) : (
                 <PokemonSelector
                   onSelect={(pokemon) => handlePokemonSelect(pokemon, 1)}
-                  placeholder="첫 번째 포켓몬을 선택하세요"
+                  placeholder="Select first Pokemon"
                 />
               )}
             </div>
 
-            {/* 포켓몬 2 선택 */}
+            {/* Pokemon 2 Selection */}
             <div className="text-center">
-              <h3 className="text-lg font-semibold mb-4">두 번째 포켓몬</h3>
+              <h3 className="text-lg font-semibold mb-4">Second Pokemon</h3>
               {pokemon2 ? (
                 <div className="card p-4">
                   <img
                     src={pokemon2.sprites.other['official-artwork']?.front_default || pokemon2.sprites.front_default}
-                    alt={PokemonService.getKoreanName(pokemon2, species2)}
+                    alt={PokemonService.getDisplayName(pokemon2, species2)}
                     className="w-32 h-32 object-contain mx-auto mb-4"
                   />
                   <h4 className="text-xl font-bold">
-                    #{PokemonService.formatPokemonId(pokemon2.id)} {PokemonService.getKoreanName(pokemon2, species2)}
+                    #{PokemonService.formatPokemonId(pokemon2.id)} {PokemonService.getDisplayName(pokemon2, species2)}
                   </h4>
                   <div className="flex justify-center space-x-2 mt-2">
                     {pokemon2.types.map((type) => (
@@ -124,7 +124,7 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                         key={type.type.name}
                         className={`pokemon-type text-xs ${PokemonService.getTypeColor(type.type.name)}`}
                       >
-                        {PokemonService.getTypeKoreanName(type.type.name)}
+                        {PokemonService.formatTypeName(type.type.name)}
                       </span>
                     ))}
                   </div>
@@ -132,27 +132,27 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                     onClick={() => setPokemon2(null)}
                     className="mt-4 text-sm text-blue-500 hover:text-blue-700"
                   >
-                    다른 포켓몬 선택
+                    Select Different Pokemon
                   </button>
                 </div>
               ) : (
                 <PokemonSelector
                   onSelect={(pokemon) => handlePokemonSelect(pokemon, 2)}
-                  placeholder="두 번째 포켓몬을 선택하세요"
+                  placeholder="Select second Pokemon"
                 />
               )}
             </div>
           </div>
 
-          {/* 비교 결과 */}
+          {/* Comparison Results */}
           {pokemon1 && pokemon2 && (
             <div className="space-y-8">
-              {/* 기본 정보 비교 */}
+              {/* Basic Info Comparison */}
               <div className="card p-6">
-                <h3 className="text-xl font-semibold mb-6">기본 정보 비교</h3>
+                <h3 className="text-xl font-semibold mb-6">Basic Information</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="text-center">
-                    <div className="text-sm text-muted mb-2">키</div>
+                    <div className="text-sm text-muted mb-2">Height</div>
                     <div className="text-lg font-semibold">
                       {(pokemon1.height / 10).toFixed(1)}m
                     </div>
@@ -162,16 +162,16 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                     </div>
                     <div className="text-xs mt-1">
                       {pokemon1.height > pokemon2.height ? (
-                        <span className="text-green-600">더 큰</span>
+                        <span className="text-green-600">Taller</span>
                       ) : pokemon1.height < pokemon2.height ? (
-                        <span className="text-red-600">더 작은</span>
+                        <span className="text-red-600">Shorter</span>
                       ) : (
-                        <span className="text-blue-600">같음</span>
+                        <span className="text-blue-600">Same</span>
                       )}
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-sm text-muted mb-2">몸무게</div>
+                    <div className="text-sm text-muted mb-2">Weight</div>
                     <div className="text-lg font-semibold">
                       {(pokemon1.weight / 10).toFixed(1)}kg
                     </div>
@@ -181,35 +181,35 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                     </div>
                     <div className="text-xs mt-1">
                       {pokemon1.weight > pokemon2.weight ? (
-                        <span className="text-green-600">더 무거운</span>
+                        <span className="text-green-600">Heavier</span>
                       ) : pokemon1.weight < pokemon2.weight ? (
-                        <span className="text-red-600">더 가벼운</span>
+                        <span className="text-red-600">Lighter</span>
                       ) : (
-                        <span className="text-blue-600">같음</span>
+                        <span className="text-blue-600">Same</span>
                       )}
                     </div>
                   </div>
                   <div className="text-center">
-                    <div className="text-sm text-muted mb-2">기초 경험치</div>
+                    <div className="text-sm text-muted mb-2">Base Experience</div>
                     <div className="text-lg font-semibold">{pokemon1.base_experience}</div>
                     <div className="text-xs text-muted">vs</div>
                     <div className="text-lg font-semibold">{pokemon2.base_experience}</div>
                     <div className="text-xs mt-1">
                       {pokemon1.base_experience > pokemon2.base_experience ? (
-                        <span className="text-green-600">더 높은</span>
+                        <span className="text-green-600">Higher</span>
                       ) : pokemon1.base_experience < pokemon2.base_experience ? (
-                        <span className="text-red-600">더 낮은</span>
+                        <span className="text-red-600">Lower</span>
                       ) : (
-                        <span className="text-blue-600">같음</span>
+                        <span className="text-blue-600">Same</span>
                       )}
                     </div>
                   </div>
                 </div>
               </div>
 
-              {/* 능력치 비교 */}
+              {/* Stats Comparison */}
               <div className="card p-6">
-                <h3 className="text-xl font-semibold mb-6">능력치 비교</h3>
+                <h3 className="text-xl font-semibold mb-6">Stats Comparison</h3>
                 <div className="space-y-4">
                   {pokemon1.stats.map((stat1, index) => {
                     const stat2 = pokemon2.stats[index];
@@ -220,7 +220,7 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                       <div key={stat1.stat.name} className="space-y-2">
                         <div className="flex justify-between items-center">
                           <span className="text-sm font-medium">
-                            {PokemonService.getStatKoreanName(stat1.stat.name)}
+                            {PokemonService.formatStatName(stat1.stat.name)}
                           </span>
                           <div className="flex space-x-4 text-sm">
                             <span className={`font-semibold ${
@@ -260,10 +260,10 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                     );
                   })}
                   
-                  {/* 총 능력치 */}
+                  {/* Total Stats */}
                   <div className="mt-6 pt-4 border-t border-muted">
                     <div className="flex justify-between items-center">
-                      <span className="text-lg font-semibold">총 능력치</span>
+                      <span className="text-lg font-semibold">Total Stats</span>
                       <div className="flex space-x-4 text-lg">
                         <span className={`font-bold ${
                           getTotalStats(pokemon1) > getTotalStats(pokemon2) ? 'text-green-600' :
@@ -284,35 +284,35 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
                 </div>
               </div>
 
-              {/* 승부 결과 */}
+              {/* Battle Result */}
               <div className="card p-6 text-center">
-                <h3 className="text-xl font-semibold mb-4">비교 결과</h3>
+                <h3 className="text-xl font-semibold mb-4">Comparison Result</h3>
                 {getTotalStats(pokemon1) > getTotalStats(pokemon2) ? (
                   <div className="text-green-600">
                     <div className="text-3xl mb-2">🏆</div>
                     <div className="text-lg font-bold">
-                      {PokemonService.getKoreanName(pokemon1, species1)} 승리!
+                      {PokemonService.getDisplayName(pokemon1, species1)} Wins!
                     </div>
                     <div className="text-sm text-muted mt-2">
-                      총 능력치가 {getTotalStats(pokemon1) - getTotalStats(pokemon2)}만큼 높습니다
+                      Total stats are {getTotalStats(pokemon1) - getTotalStats(pokemon2)} points higher
                     </div>
                   </div>
                 ) : getTotalStats(pokemon1) < getTotalStats(pokemon2) ? (
                   <div className="text-green-600">
                     <div className="text-3xl mb-2">🏆</div>
                     <div className="text-lg font-bold">
-                      {PokemonService.getKoreanName(pokemon2, species2)} 승리!
+                      {PokemonService.getDisplayName(pokemon2, species2)} Wins!
                     </div>
                     <div className="text-sm text-muted mt-2">
-                      총 능력치가 {getTotalStats(pokemon2) - getTotalStats(pokemon1)}만큼 높습니다
+                      Total stats are {getTotalStats(pokemon2) - getTotalStats(pokemon1)} points higher
                     </div>
                   </div>
                 ) : (
                   <div className="text-blue-600">
                     <div className="text-3xl mb-2">🤝</div>
-                    <div className="text-lg font-bold">무승부!</div>
+                    <div className="text-lg font-bold">It's a Tie!</div>
                     <div className="text-sm text-muted mt-2">
-                      총 능력치가 동일합니다
+                      Both Pokemon have the same total stats
                     </div>
                   </div>
                 )}

@@ -16,7 +16,7 @@ export function PokemonCard({ pokemon, species, onClick }: PokemonCardProps) {
     }
   };
 
-  const koreanName = PokemonService.getKoreanName(pokemon, species);
+  const displayName = PokemonService.getDisplayName(pokemon, species);
 
   return (
     <div
@@ -31,14 +31,14 @@ export function PokemonCard({ pokemon, species, onClick }: PokemonCardProps) {
         <div className="flex justify-center mb-4">
           <img
             src={pokemon.sprites.other['official-artwork']?.front_default || pokemon.sprites.front_default}
-            alt={koreanName}
+            alt={displayName}
             className="w-24 h-24 object-contain"
             onError={handleImageError}
           />
         </div>
         
         <h3 className="text-xl font-bold text-center mb-2">
-          {koreanName}
+          {displayName}
         </h3>
         
         <div className="flex flex-wrap justify-center gap-2">
@@ -47,7 +47,7 @@ export function PokemonCard({ pokemon, species, onClick }: PokemonCardProps) {
               key={type.type.name}
               className={`pokemon-type ${PokemonService.getTypeColor(type.type.name)}`}
             >
-              {PokemonService.getTypeKoreanName(type.type.name)}
+              {PokemonService.formatTypeName(type.type.name)}
             </span>
           ))}
         </div>

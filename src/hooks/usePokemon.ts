@@ -22,15 +22,15 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
       
       let response: PokemonListResponse;
       if (targetGeneration.id === 0) {
-        // 전체 세대
+        // All generations
         response = await PokemonService.getPokemonList(limit, currentOffset);
       } else {
-        // 특정 세대
+        // Specific generation
         response = await PokemonService.getPokemonByGeneration(targetGeneration, limit, currentOffset);
       }
       
       if (isLoadMore) {
-        // 중복 포켓몬 방지를 위해 고유한 포켓몬만 추가
+        // Prevent duplicate Pokemon by adding only unique ones
         const existingNames = new Set(pokemonList.map(p => p.name));
         const newPokemons = response.results.filter(p => !existingNames.has(p.name));
         setPokemonList(prev => [...prev, ...newPokemons]);
@@ -40,10 +40,10 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
       
       setOffset(currentOffset + limit);
       
-      // 다음 페이지 여부 확인 (next가 null이 아닐 때만 더 로드 가능)
+      // Check if more pages exist (only when next is not null)
       setHasMore(response.next !== null);
       
-      // 현재 포켓몬 세대에서 더 로드할 포켓몬이 없는지 중복 확인
+      // Double check if there are no more Pokemon to load in current generation
       const hasReachedEnd = response.results.length === 0 || 
                         (targetGeneration.id !== 0 && 
                          currentOffset + limit >= targetGeneration.endId - targetGeneration.startId + 1);
@@ -52,7 +52,7 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
         setHasMore(false);
       }
     } catch (err) {
-      setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.');
+      setError(err instanceof Error ? err.message : 'An unknown error occurred.');
     } finally {
       setLoading(false);
     }
@@ -69,13 +69,13 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
     setOffset(0);
     setPokemonList([]);
     
-    // 특정 세대를 선택했을 때는 해당 세대의 포켓몬 수를 고려하여 hasMore 설정
+    // When selecting a specific generation, consider the number of Pokemon in that generation to set hasMore
     if (generation.id !== 0) {
-      // 전체 포켓몬 수가 limit보다 작을 때는 추가 로드 불가
+      // When total Pokemon count is less than limit, no additional loading possible
       const totalPokemon = generation.endId - generation.startId + 1;
       setHasMore(totalPokemon > limit);
     } else {
-      // 전체 세대를 선택했을 때는 항상 더 로드 가능
+      // When all generations are selected, always allow more loading
       setHasMore(true);
     }
     
@@ -125,7 +125,7 @@ export function usePokemon(nameOrId: string | number | null) {
       try {
         let pokemonData: Pokemon;
         
-        // 이름이 pokemon-숫자 형태인 경우 숫자만 추출
+        // If name is in pokemon-number format, extract only the number
         if (typeof nameOrId === 'string' && nameOrId.startsWith('pokemon-')) {
           const id = nameOrId.replace('pokemon-', '');
           pokemonData = await PokemonService.getPokemon(id);
@@ -139,11 +139,11 @@ export function usePokemon(nameOrId: string | number | null) {
           const speciesData = await PokemonService.getPokemonSpecies(pokemonData.id);
           setSpecies(speciesData);
         } catch (speciesError) {
-          console.warn('종족 정보를 가져올 수 없습니다:', speciesError);
+          console.warn('Unable to fetch species information:', speciesError);
           setSpecies(null);
         }
       } catch (err) {
-        setError(err instanceof Error ? err.message : '알 수 없는 오류가 발생했습니다.');
+        setError(err instanceof Error ? err.message : 'An unknown error occurred.');
         setPokemon(null);
         setSpecies(null);
       } finally {
@@ -185,7 +185,7 @@ export function useSearch() {
       if (result) {
         setSearchResult(result);
         
-        // 검색 결과에 대한 species 정보도 로드
+        // Load species information for search result as well
         try {
           const speciesData = await PokemonService.getPokemonSpecies(result.id);
           setSearchSpecies(speciesData);
@@ -193,12 +193,12 @@ export function useSearch() {
           setSearchSpecies(null);
         }
       } else {
-        setSearchError(`"${query}"와(과) 일치하는 포켓몬을 찾을 수 없습니다.`);
+        setSearchError(`No Pokemon found matching "${query}".`);
         setSearchResult(null);
         setSearchSpecies(null);
       }
     } catch (err) {
-      setSearchError(err instanceof Error ? err.message : '검색 중 오류가 발생했습니다.');
+      setSearchError(err instanceof Error ? err.message : 'An error occurred during search.');
       setSearchResult(null);
       setSearchSpecies(null);
     } finally {

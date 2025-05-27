@@ -10,7 +10,7 @@ export function GenerationSelector({ selectedGeneration, onGenerationChange }: G
   return (
     <div className="w-full max-w-xs mx-auto mb-6">
       <label htmlFor="generation-select" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
-        세대 선택
+        Generation Select
       </label>
       <select
         id="generation-select"

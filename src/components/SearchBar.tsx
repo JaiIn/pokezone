@@ -25,7 +25,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
     }
   };
 
-  const koreanName = searchResult ? PokemonService.getKoreanName(searchResult, searchSpecies) : '';
+  const displayName = searchResult ? PokemonService.getDisplayName(searchResult, searchSpecies) : '';
 
   return (
     <div className="w-full max-w-md mx-auto mb-8">
@@ -34,7 +34,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="포켓몬 이름이나 번호를 입력하세요..."
+          placeholder="Enter Pokemon name or number..."
           className="input-field pr-12"
         />
         {searchTerm && (
@@ -50,7 +50,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
 
       {searchLoading && (
         <div className="mt-2 text-center text-muted">
-          검색 중...
+          Searching...
         </div>
       )}
 
@@ -65,12 +65,12 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
           <div className="flex items-center space-x-3">
             <img
               src={searchResult.sprites.front_default}
-              alt={koreanName}
+              alt={displayName}
               className="w-16 h-16"
             />
             <div className="flex-1">
               <h3 className="font-semibold text-lg">
-                #{searchResult.id.toString().padStart(3, '0')} {koreanName}
+                #{searchResult.id.toString().padStart(3, '0')} {displayName}
               </h3>
               <div className="flex space-x-2 mt-1">
                 {searchResult.types.map((type) => (
@@ -78,7 +78,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
                     key={type.type.name}
                     className={`pokemon-type ${PokemonService.getTypeColor(type.type.name)}`}
                   >
-                    {PokemonService.getTypeKoreanName(type.type.name)}
+                    {PokemonService.formatTypeName(type.type.name)}
                   </span>
                 ))}
               </div>
@@ -90,7 +90,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
               }}
               className="btn-primary"
             >
-              선택
+              Select
             </button>
           </div>
         </div>

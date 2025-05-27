@@ -9,9 +9,9 @@ interface TabNavigationProps {
 
 export function TabNavigation({ selectedTab, onTabChange }: TabNavigationProps) {
   const tabs: { key: TabType; label: string }[] = [
-    { key: 'info', label: '기본 정보' },
-    { key: 'evolution', label: '진화' },
-    { key: 'moves', label: '기술' },
+    { key: 'info', label: 'Basic Info' },
+    { key: 'evolution', label: 'Evolution' },
+    { key: 'moves', label: 'Moves' },
   ];
 
   return (

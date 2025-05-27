@@ -8,7 +8,7 @@ interface PokemonSelectorProps {
   placeholder?: string;
 }
 
-export function PokemonSelector({ onSelect, placeholder = "포켓몬을 검색하세요" }: PokemonSelectorProps) {
+export function PokemonSelector({ onSelect, placeholder = "Search for Pokemon" }: PokemonSelectorProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { 
     searchTerm, 
@@ -31,7 +31,7 @@ export function PokemonSelector({ onSelect, placeholder = "포켓몬을 검색�
       const pokemon = await PokemonService.getPokemon(randomId);
       handleSelect(pokemon);
     } catch (error) {
-      console.error('랜덤 포켓몬 로드 실패:', error);
+      console.error('Failed to load random Pokemon:', error);
     }
   };
 
@@ -45,13 +45,13 @@ export function PokemonSelector({ onSelect, placeholder = "포켓몬을 검색�
               onClick={() => setIsOpen(true)}
               className="btn-primary mb-2"
             >
-              포켓몬 선택
+              Select Pokemon
             </button>
             <button
               onClick={handleRandomSelect}
               className="btn-secondary text-sm"
             >
-              랜덤 선택
+              Random Select
             </button>
           </div>
         ) : (
@@ -78,7 +78,7 @@ export function PokemonSelector({ onSelect, placeholder = "포켓몬을 검색�
 
             {searchLoading && (
               <div className="text-center text-muted">
-                검색 중...
+                Searching...
               </div>
             )}
 
@@ -96,12 +96,12 @@ export function PokemonSelector({ onSelect, placeholder = "포켓몬을 검색�
                 >
                   <img
                     src={searchResult.sprites.front_default}
-                    alt={PokemonService.getKoreanName(searchResult, searchSpecies)}
+                    alt={PokemonService.getDisplayName(searchResult, searchSpecies)}
                     className="w-16 h-16"
                   />
                   <div className="flex-1">
                     <h4 className="font-semibold">
-                      #{PokemonService.formatPokemonId(searchResult.id)} {PokemonService.getKoreanName(searchResult, searchSpecies)}
+                      #{PokemonService.formatPokemonId(searchResult.id)} {PokemonService.getDisplayName(searchResult, searchSpecies)}
                     </h4>
                     <div className="flex space-x-2 mt-1">
                       {searchResult.types.map((type) => (
@@ -109,7 +109,7 @@ export function PokemonSelector({ onSelect, placeholder = "포켓몬을 검색�
                           key={type.type.name}
                           className={`pokemon-type text-xs ${PokemonService.getTypeColor(type.type.name)}`}
                         >
-                          {PokemonService.getTypeKoreanName(type.type.name)}
+                          {PokemonService.formatTypeName(type.type.name)}
                         </span>
                       ))}
                     </div>
@@ -120,7 +120,7 @@ export function PokemonSelector({ onSelect, placeholder = "포켓몬을 검색�
 
             {!searchTerm && !searchResult && (
               <div className="text-center text-muted">
-                포켓몬 이름이나 번호를 입력해주세요
+                Enter Pokemon name or number
               </div>
             )}
           </div>

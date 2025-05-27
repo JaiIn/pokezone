@@ -228,14 +228,14 @@ export interface Generation {
 }
 
 export const GENERATIONS: Generation[] = [
-  { id: 0, name: "all", koreanName: "전체", startId: 1, endId: 1025 },
-  { id: 1, name: "generation-i", koreanName: "1세대 (관동)", startId: 1, endId: 151 },
-  { id: 2, name: "generation-ii", koreanName: "2세대 (성도)", startId: 152, endId: 251 },
-  { id: 3, name: "generation-iii", koreanName: "3세대 (호연)", startId: 252, endId: 386 },
-  { id: 4, name: "generation-iv", koreanName: "4세대 (신오)", startId: 387, endId: 493 },
-  { id: 5, name: "generation-v", koreanName: "5세대 (하나)", startId: 494, endId: 649 },
-  { id: 6, name: "generation-vi", koreanName: "6세대 (칼로스)", startId: 650, endId: 721 },
-  { id: 7, name: "generation-vii", koreanName: "7세대 (알로라)", startId: 722, endId: 809 },
-  { id: 8, name: "generation-viii", koreanName: "8세대 (가라르)", startId: 810, endId: 905 },
-  { id: 9, name: "generation-ix", koreanName: "9세대 (팔데아)", startId: 906, endId: 1025 },
+  { id: 0, name: "all", koreanName: "All Generations", startId: 1, endId: 1025 },
+  { id: 1, name: "generation-i", koreanName: "Generation I (Kanto)", startId: 1, endId: 151 },
+  { id: 2, name: "generation-ii", koreanName: "Generation II (Johto)", startId: 152, endId: 251 },
+  { id: 3, name: "generation-iii", koreanName: "Generation III (Hoenn)", startId: 252, endId: 386 },
+  { id: 4, name: "generation-iv", koreanName: "Generation IV (Sinnoh)", startId: 387, endId: 493 },
+  { id: 5, name: "generation-v", koreanName: "Generation V (Unova)", startId: 494, endId: 649 },
+  { id: 6, name: "generation-vi", koreanName: "Generation VI (Kalos)", startId: 650, endId: 721 },
+  { id: 7, name: "generation-vii", koreanName: "Generation VII (Alola)", startId: 722, endId: 809 },
+  { id: 8, name: "generation-viii", koreanName: "Generation VIII (Galar)", startId: 810, endId: 905 },
+  { id: 9, name: "generation-ix", koreanName: "Generation IX (Paldea)", startId: 906, endId: 1025 },
 ];

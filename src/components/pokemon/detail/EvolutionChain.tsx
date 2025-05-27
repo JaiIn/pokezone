@@ -25,7 +25,7 @@ export function EvolutionChain({ fullDetail, onPokemonSelect }: EvolutionChainPr
     return (
       <div className="flex flex-col items-center justify-center py-12">
         <div className="text-6xl mb-4">🔄</div>
-        <p className="text-muted text-lg">진화 정보를 로드할 수 없습니다</p>
+        <p className="text-muted text-lg">Unable to load evolution information</p>
       </div>
     );
   }
@@ -148,11 +148,11 @@ export function EvolutionChain({ fullDetail, onPokemonSelect }: EvolutionChainPr
 
   return (
     <div className="max-w-6xl mx-auto">
-      {/* 헤더 */}
+      {/* Header */}
       <div className="text-center mb-8">
         <div className="text-4xl mb-2">🧬</div>
-        <h3 className="text-2xl font-bold text-gray-800 dark:text-slate-200">진화 계보</h3>
-        <p className="text-muted mt-2">포켓몬의 진화 단계와 조건을 확인하세요</p>
+        <h3 className="text-2xl font-bold text-gray-800 dark:text-slate-200">Evolution Chain</h3>
+        <p className="text-muted mt-2">Check the evolution stages and conditions of Pokemon</p>
       </div>
 
       {/* 가로 진화 체인 */}
@@ -165,7 +165,7 @@ export function EvolutionChain({ fullDetail, onPokemonSelect }: EvolutionChainPr
                 {/* 단계 레이블 */}
                 <div className="mb-4">
                   <span className="inline-block px-3 py-1 bg-gray-100 dark:bg-slate-700 rounded-full text-xs font-semibold text-gray-700 dark:text-slate-300">
-                    {stageIndex === 0 ? '🥚 기본형' : stageIndex === 1 ? '🌱 1차 진화' : '🌺 최종 진화'}
+                    {stageIndex === 0 ? '🥚 Basic' : stageIndex === 1 ? '🌱 Stage 1' : '🌺 Stage 2'}
                   </span>
                 </div>
 
@@ -199,7 +199,7 @@ export function EvolutionChain({ fullDetail, onPokemonSelect }: EvolutionChainPr
                             #{pokemon.id.padStart(3, '0')}
                           </div>
                           <div className="font-bold text-sm capitalize text-gray-900 dark:text-slate-100">
-                            {PokemonService.getKoreanName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
+                            {PokemonService.getDisplayName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
                           </div>
                           <div className="text-xs text-gray-600 dark:text-slate-400">
                             {pokemon.name}
@@ -232,7 +232,7 @@ export function EvolutionChain({ fullDetail, onPokemonSelect }: EvolutionChainPr
                               min_happiness: evolutionStages[stageIndex + 1][0].friendship ? 220 : null
                             }])
                           )}
-                          {!evolutionStages[stageIndex + 1][0].minLevel && !evolutionStages[stageIndex + 1][0].item && '진화'}
+                          {!evolutionStages[stageIndex + 1][0].minLevel && !evolutionStages[stageIndex + 1][0].item && 'Evolution'}
                         </span>
                       </div>
                     </div>
@@ -249,12 +249,12 @@ export function EvolutionChain({ fullDetail, onPokemonSelect }: EvolutionChainPr
         </div>
       </div>
 
-      {/* 진화하지 않는 포켓몬 메시지 */}
+      {/* No evolution message */}
       {evolutionStages.length === 1 && (
         <div className="text-center mt-8">
           <div className="inline-flex items-center px-6 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800 rounded-lg">
             <span className="text-2xl mr-2">💎</span>
-            <span className="text-amber-800 dark:text-amber-200 font-medium">이 포켓몬은 진화하지 않는 완성형입니다</span>
+            <span className="text-amber-800 dark:text-amber-200 font-medium">This Pokemon does not evolve</span>
           </div>
         </div>
       )}

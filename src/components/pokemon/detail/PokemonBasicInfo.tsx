@@ -8,8 +8,8 @@ interface PokemonBasicInfoProps {
 }
 
 export function PokemonBasicInfo({ pokemon, species }: PokemonBasicInfoProps) {
-  const koreanName = PokemonService.getKoreanName(pokemon, species);
-  const flavorText = species ? PokemonService.getKoreanFlavorText(species) : '';
+  const displayName = PokemonService.getDisplayName(pokemon, species);
+  const flavorText = species ? PokemonService.getFlavorText(species) : '';
 
   return (
     <>
@@ -18,19 +18,19 @@ export function PokemonBasicInfo({ pokemon, species }: PokemonBasicInfoProps) {
         <div className="text-center">
           <img
             src={pokemon.sprites.other['official-artwork']?.front_default || pokemon.sprites.front_default}
-            alt={koreanName}
+            alt={displayName}
             className="w-64 h-64 object-contain mx-auto mb-4"
           />
           <div className="flex justify-center space-x-4">
             <img
               src={pokemon.sprites.front_default}
-              alt={`${koreanName} 기본`}
+              alt={`${displayName} normal`}
               className="w-16 h-16 border border-muted rounded"
             />
             {pokemon.sprites.front_shiny && (
               <img
                 src={pokemon.sprites.front_shiny}
-                alt={`${koreanName} 색이 다른`}
+                alt={`${displayName} shiny`}
                 className="w-16 h-16 border border-muted rounded"
               />
             )}
@@ -40,78 +40,74 @@ export function PokemonBasicInfo({ pokemon, species }: PokemonBasicInfoProps) {
         {/* 기본 정보 섹션 */}
         <div className="space-y-4">
           <div>
-            <h3 className="text-lg font-semibold mb-2">기본 정보</h3>
+            <h3 className="text-lg font-semibold mb-2">Basic Info</h3>
             <div className="space-y-2">
               <div className="flex justify-between">
-                <span className="text-muted">한국명:</span>
-                <span className="capitalize">{koreanName}</span>
+                <span className="text-muted">Name:</span>
+                <span className="capitalize">{displayName}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted">영문명:</span>
-                <span className="capitalize">{pokemon.name}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted">타입:</span>
+                <span className="text-muted">Type:</span>
                 <div className="flex space-x-1">
                   {pokemon.types.map((type) => (
                     <span
                       key={type.type.name}
                       className={`pokemon-type text-xs ${PokemonService.getTypeColor(type.type.name)}`}
                     >
-                      {PokemonService.getTypeKoreanName(type.type.name)}
+                      {PokemonService.formatTypeName(type.type.name)}
                     </span>
                   ))}
                 </div>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted">키:</span>
+                <span className="text-muted">Height:</span>
                 <span>{(pokemon.height / 10).toFixed(1)}m</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted">몸무게:</span>
+                <span className="text-muted">Weight:</span>
                 <span>{(pokemon.weight / 10).toFixed(1)}kg</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted">기초 경험치:</span>
+                <span className="text-muted">Base Experience:</span>
                 <span>{pokemon.base_experience}</span>
               </div>
             </div>
           </div>
 
-          {/* 특성 */}
+          {/* Abilities */}
           <div>
-            <h3 className="text-lg font-semibold mb-2">특성</h3>
+            <h3 className="text-lg font-semibold mb-2">Abilities</h3>
             <div className="space-y-1">
               {pokemon.abilities.map((ability, index) => (
                 <div key={index} className="flex justify-between">
                   <span className="text-muted">
-                    {ability.is_hidden ? '숨겨진 특성:' : '특성:'}
+                    {ability.is_hidden ? 'Hidden Ability:' : 'Ability:'}
                   </span>
-                  <span className="capitalize">{PokemonService.getAbilityKoreanName(ability.ability.name)}</span>
+                  <span className="capitalize">{PokemonService.formatAbilityName(ability.ability.name)}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* 설명 */}
+          {/* Description */}
           {flavorText && (
             <div>
-              <h3 className="text-lg font-semibold mb-2">설명</h3>
+              <h3 className="text-lg font-semibold mb-2">Description</h3>
               <p className="text-gray-700 dark:text-slate-300 leading-relaxed">{flavorText}</p>
             </div>
           )}
         </div>
       </div>
 
-      {/* 능력치 섹션 */}
+      {/* Stats Section */}
       <div className="mt-8">
-        <h3 className="text-xl font-semibold mb-4">기본 능력치</h3>
+        <h3 className="text-xl font-semibold mb-4">Base Stats</h3>
         <div className="space-y-4">
           {pokemon.stats.map((stat) => (
             <div key={stat.stat.name}>
               <div className="flex justify-between items-center mb-1">
                 <span className="text-muted">
-                  {PokemonService.getStatKoreanName(stat.stat.name)}
+                  {PokemonService.formatStatName(stat.stat.name)}
                 </span>
                 <span className="font-semibold">{stat.base_stat}</span>
               </div>
@@ -125,7 +121,7 @@ export function PokemonBasicInfo({ pokemon, species }: PokemonBasicInfoProps) {
           ))}
         </div>
         <div className="mt-4 text-sm text-muted">
-          총 능력치: {pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0)}
+          Total Stats: {pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0)}
         </div>
       </div>
     </>
