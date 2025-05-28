@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Pokemon, PokemonSpecies, PokemonDetail as PokemonDetailType, Move } from '../types/pokemon';
+import { Pokemon, PokemonSpecies, PokemonDetail as PokemonDetailType } from '../types/pokemon';
 import { PokemonService } from '../services/pokemonService';
 import { TabNavigation, TabType } from './pokemon/detail/TabNavigation';
 import { PokemonBasicInfo } from './pokemon/detail/PokemonBasicInfo';
@@ -16,7 +16,6 @@ interface PokemonDetailProps {
 export function PokemonDetail({ pokemon, species, onClose, onPokemonSelect }: PokemonDetailProps) {
   const [fullDetail, setFullDetail] = useState<PokemonDetailType | null>(null);
   const [selectedTab, setSelectedTab] = useState<TabType>('info');
-  const [moveDetails, setMoveDetails] = useState<{ [key: string]: Move }>({});
   const [loading, setLoading] = useState(false);
 
   const displayName = PokemonService.getDisplayName(pokemon, species);
@@ -45,18 +44,6 @@ export function PokemonDetail({ pokemon, species, onClose, onPokemonSelect }: Po
     }
   };
 
-  // 기술 상세 정보 로드
-  const loadMoveDetail = async (moveName: string) => {
-    if (moveDetails[moveName]) return;
-
-    try {
-      const move = await PokemonService.getMove(moveName);
-      setMoveDetails(prev => ({ ...prev, [moveName]: move }));
-    } catch (error) {
-      console.error(`기술 ${moveName} 정보 로드 실패:`, error);
-    }
-  };
-
   const handleBackdropClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onClose();
@@ -79,7 +66,7 @@ export function PokemonDetail({ pokemon, species, onClose, onPokemonSelect }: Po
       case 'evolution':
         return <EvolutionChain fullDetail={fullDetail} onPokemonSelect={handlePokemonSelect} />;
       case 'moves':
-        return <MovesList fullDetail={fullDetail} moveDetails={moveDetails} onLoadMoveDetail={loadMoveDetail} />;
+        return <MovesList fullDetail={fullDetail} />;
       default:
         return null;
     }
