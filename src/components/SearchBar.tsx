@@ -1,4 +1,5 @@
 import React from 'react';
+import { PokemonType } from '../types';
 import { useSearch } from '../hooks/usePokemon';
 import { PokemonService } from '../services/pokemonService';
 
@@ -73,7 +74,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
                 #{searchResult.id.toString().padStart(3, '0')} {displayName}
               </h3>
               <div className="flex space-x-2 mt-1">
-                {searchResult.types.map((type) => (
+                {searchResult.types.map((type: PokemonType) => (
                   <span
                     key={type.type.name}
                     className={`pokemon-type ${PokemonService.getTypeColor(type.type.name)}`}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Move } from '../types/pokemon';
+import { Move } from '../types';
 import { PokemonService } from '../services/pokemonService';
 
 export function useMoveDetails() {

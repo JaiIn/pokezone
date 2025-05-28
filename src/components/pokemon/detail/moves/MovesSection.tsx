@@ -1,5 +1,5 @@
 import React from 'react';
-import { Move } from '../../../../types/pokemon';
+import { Move } from '../../../../types';
 import { MoveWithMetadata } from '../../../../utils/movesUtils';
 import { MoveCard } from './MoveCard';
 

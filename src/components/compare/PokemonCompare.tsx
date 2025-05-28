@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pokemon, PokemonSpecies } from '../../types/pokemon';
+import { Pokemon, PokemonSpecies } from '../../types';
 import { PokemonService } from '../../services/pokemonService';
 import { PokemonSelectionCard } from './detail/PokemonSelectionCard';
 import { BasicInfoComparison } from './detail/BasicInfoComparison';

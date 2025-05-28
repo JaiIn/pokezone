@@ -1,4 +1,5 @@
-import { Pokemon, PokemonSpecies } from '../../types/pokemon';
+import { Pokemon, PokemonSpecies } from '../../types';
+import { FlavorTextEntry } from '../../types/common';
 
 export class PokemonFormatter {
   static getDisplayName(pokemon: Pokemon, species?: PokemonSpecies | null): string {
@@ -7,7 +8,7 @@ export class PokemonFormatter {
 
   static getFlavorText(species: PokemonSpecies): string {
     const englishEntry = species.flavor_text_entries.find(
-      entry => entry.language.name === 'en'
+      (entry: FlavorTextEntry) => entry.language.name === 'en'
     );
     return englishEntry 
       ? englishEntry.flavor_text.replace(/\f/g, ' ').replace(/\n/g, ' ')

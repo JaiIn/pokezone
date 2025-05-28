@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { usePokemonList, usePokemon } from '../hooks/usePokemon';
-import { Pokemon } from '../types/pokemon';
+import { Pokemon } from '../types';
 import { Header } from './Header';
 import { SearchBar } from './SearchBar';
 import { GenerationSelector } from './GenerationSelector';

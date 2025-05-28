@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Pokemon, PokemonSpecies, PokemonDetail as PokemonDetailType } from '../types/pokemon';
+import { Pokemon, PokemonSpecies, PokemonDetail as PokemonDetailType } from '../types';
 import { PokemonService } from '../services/pokemonService';
 import { TabNavigation, TabType } from './pokemon/detail/TabNavigation';
 import { PokemonBasicInfo } from './pokemon/detail/PokemonBasicInfo';

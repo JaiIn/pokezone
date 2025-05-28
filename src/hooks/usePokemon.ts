@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Pokemon, PokemonListItem, PokemonSpecies, PokemonListResponse, Generation, GENERATIONS } from '../types/pokemon';
+import { Pokemon, PokemonListItem, PokemonSpecies, PokemonListResponse, Generation, GENERATIONS } from '../types';
 import { PokemonService } from '../services/pokemonService';
 
 export function usePokemonList(limit: number = 20, selectedGeneration?: Generation) {

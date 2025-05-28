@@ -1,4 +1,4 @@
-import { Move } from '../types/pokemon';
+import { Move } from '../types';
 
 export interface MoveWithMetadata {
   move: { name: string; url: string };

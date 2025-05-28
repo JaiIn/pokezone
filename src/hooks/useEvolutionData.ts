@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { EvolutionChain } from '../types/pokemon';
+import { EvolutionChain } from '../types';
 import { processEvolutionChain, EvolutionPokemon } from '../utils/evolutionUtils';
 
 export function useEvolutionData(evolutionChain: EvolutionChain | undefined) {

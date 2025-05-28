@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pokemon, PokemonSpecies } from '../../../types/pokemon';
+import { Pokemon, PokemonSpecies, PokemonStat } from '../../../types';
 import { PokemonService } from '../../../services/pokemonService';
 
 interface StatsComparisonProps {
@@ -25,14 +25,14 @@ export function StatsComparison({ pokemon1, pokemon2, species1, species2 }: Stat
   };
 
   const getTotalStats = (pokemon: Pokemon) => {
-    return pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0);
+    return pokemon.stats.reduce((sum: number, stat: PokemonStat) => sum + stat.base_stat, 0);
   };
 
   return (
     <div className="card p-6">
       <h3 className="text-xl font-semibold mb-6">Stats Comparison</h3>
       <div className="space-y-4">
-        {pokemon1.stats.map((stat1, index) => {
+        {pokemon1.stats.map((stat1: PokemonStat, index: number) => {
           const stat2 = pokemon2.stats[index];
           const comparison1 = getStatComparison(stat1.base_stat, stat2.base_stat);
           const comparison2 = getStatComparison(stat2.base_stat, stat1.base_stat);

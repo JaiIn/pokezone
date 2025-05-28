@@ -1,5 +1,5 @@
 import React from 'react';
-import { PokemonDetail } from '../../../types/pokemon';
+import { PokemonDetail } from '../../../types';
 import { useMoveDetails } from '../../../hooks/useMoveDetails';
 import { categorizeMoves, calculateMoveStats } from '../../../utils/movesUtils';
 import { MovesHeader } from './moves/MovesHeader';

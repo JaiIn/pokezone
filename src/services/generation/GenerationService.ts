@@ -1,4 +1,4 @@
-import { Generation, GENERATIONS } from '../../types/pokemon';
+import { Generation, GENERATIONS } from '../../types';
 
 export class GenerationService {
   static getGenerationByPokemonId(id: number): Generation | null {

@@ -1,5 +1,5 @@
 import React from 'react';
-import { PokemonDetail } from '../../../types/pokemon';
+import { PokemonDetail } from '../../../types';
 import { useEvolutionData } from '../../../hooks/useEvolutionData';
 import { EvolutionHeader } from './evolution/EvolutionHeader';
 import { EvolutionTimeline } from './evolution/EvolutionTimeline';

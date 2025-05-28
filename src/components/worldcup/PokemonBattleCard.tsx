@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pokemon } from '../../types/pokemon';
+import { Pokemon, PokemonType } from '../../types';
 import { PokemonService } from '../../services/pokemonService';
 
 interface PokemonBattleCardProps {
@@ -23,7 +23,7 @@ export function PokemonBattleCard({ pokemon, onSelect }: PokemonBattleCardProps)
           {PokemonService.getDisplayName(pokemon)}
         </h3>
         <div className="flex justify-center space-x-2">
-          {pokemon.types.map((type) => (
+          {pokemon.types.map((type: PokemonType) => (
             <span
               key={type.type.name}
               className={`pokemon-type text-xs ${PokemonService.getTypeColor(type.type.name)}`}

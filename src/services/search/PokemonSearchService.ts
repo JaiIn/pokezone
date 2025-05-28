@@ -1,4 +1,4 @@
-import { Pokemon } from '../../types/pokemon';
+import { Pokemon } from '../../types';
 import { PokemonApiService } from '../api/PokemonApiService';
 
 export class PokemonSearchService {

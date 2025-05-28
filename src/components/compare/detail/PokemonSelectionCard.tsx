@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pokemon, PokemonSpecies } from '../../../types/pokemon';
+import { Pokemon, PokemonSpecies, PokemonType } from '../../../types';
 import { PokemonService } from '../../../services/pokemonService';
 import { PokemonSelector } from '../PokemonSelector';
 
@@ -36,7 +36,7 @@ export function PokemonSelectionCard({
             #{PokemonService.formatPokemonId(pokemon.id)} {PokemonService.getDisplayName(pokemon, species)}
           </h4>
           <div className="flex justify-center space-x-2 mt-2">
-            {pokemon.types.map((type) => (
+            {pokemon.types.map((type: PokemonType) => (
               <span
                 key={type.type.name}
                 className={`pokemon-type text-xs ${PokemonService.getTypeColor(type.type.name)}`}

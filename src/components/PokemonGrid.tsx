@@ -1,5 +1,5 @@
 import React from 'react';
-import { PokemonListItem } from '../types/pokemon';
+import { PokemonListItem } from '../types';
 import { usePokemon } from '../hooks/usePokemon';
 import { PokemonCard } from './PokemonCard';
 import { LoadingSpinner } from './LoadingSpinner';

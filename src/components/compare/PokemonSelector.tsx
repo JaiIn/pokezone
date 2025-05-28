@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pokemon } from '../../types/pokemon';
+import { Pokemon, PokemonType } from '../../types';
 import { PokemonService } from '../../services/pokemonService';
 import { useSearch } from '../../hooks/usePokemon';
 
@@ -104,7 +104,7 @@ export function PokemonSelector({ onSelect, placeholder = "Search for Pokemon" }
                       #{PokemonService.formatPokemonId(searchResult.id)} {PokemonService.getDisplayName(searchResult, searchSpecies)}
                     </h4>
                     <div className="flex space-x-2 mt-1">
-                      {searchResult.types.map((type) => (
+                      {searchResult.types.map((type: PokemonType) => (
                         <span
                           key={type.type.name}
                           className={`pokemon-type text-xs ${PokemonService.getTypeColor(type.type.name)}`}

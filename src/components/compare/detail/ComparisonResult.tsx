@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pokemon, PokemonSpecies } from '../../../types/pokemon';
+import { Pokemon, PokemonSpecies, PokemonStat } from '../../../types';
 import { PokemonService } from '../../../services/pokemonService';
 
 interface ComparisonResultProps {
@@ -11,7 +11,7 @@ interface ComparisonResultProps {
 
 export function ComparisonResult({ pokemon1, pokemon2, species1, species2 }: ComparisonResultProps) {
   const getTotalStats = (pokemon: Pokemon) => {
-    return pokemon.stats.reduce((sum, stat) => sum + stat.base_stat, 0);
+    return pokemon.stats.reduce((sum: number, stat: PokemonStat) => sum + stat.base_stat, 0);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Generation, GENERATIONS } from '../types/pokemon';
+import { Generation, GENERATIONS } from '../types';
 
 interface GenerationSelectorProps {
   selectedGeneration: Generation;

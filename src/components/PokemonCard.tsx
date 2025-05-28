@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pokemon, PokemonSpecies } from '../types/pokemon';
+import { Pokemon, PokemonSpecies, PokemonType } from '../types';
 import { PokemonService } from '../services/pokemonService';
 
 interface PokemonCardProps {
@@ -42,7 +42,7 @@ export function PokemonCard({ pokemon, species, onClick }: PokemonCardProps) {
         </h3>
         
         <div className="flex flex-wrap justify-center gap-2">
-          {pokemon.types.map((type) => (
+          {pokemon.types.map((type: PokemonType) => (
             <span
               key={type.type.name}
               className={`pokemon-type ${PokemonService.getTypeColor(type.type.name)}`}

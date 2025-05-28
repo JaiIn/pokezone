@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pokemon } from '../../types/pokemon';
+import { Pokemon } from '../../types';
 import { PokemonService } from '../../services/pokemonService';
 import { TOURNAMENT_SIZES } from '../../utils/tournamentUtils';
 

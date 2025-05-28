@@ -1,5 +1,5 @@
 import React from 'react';
-import { Move } from '../../../../types/pokemon';
+import { Move } from '../../../../types';
 import { PokemonService } from '../../../../services/pokemonService';
 
 interface MoveStatsDisplayProps {

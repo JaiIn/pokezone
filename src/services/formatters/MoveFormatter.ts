@@ -1,4 +1,4 @@
-import { Move } from '../../types/pokemon';
+import { Move } from '../../types';
 
 export class MoveFormatter {
   static formatMoveName(move: Move): string {

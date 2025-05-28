@@ -1,5 +1,5 @@
 import React from 'react';
-import { Pokemon, PokemonSpecies } from '../../../types/pokemon';
+import { Pokemon, PokemonSpecies } from '../../../types';
 import { PokemonService } from '../../../services/pokemonService';
 
 interface BasicInfoComparisonProps {

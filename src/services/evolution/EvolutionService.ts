@@ -1,4 +1,4 @@
-import { EvolutionChain } from '../../types/pokemon';
+import { EvolutionChain } from '../../types';
 import { PokemonApiService } from '../api/PokemonApiService';
 
 export class EvolutionService {

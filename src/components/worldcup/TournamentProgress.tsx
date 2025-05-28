@@ -1,6 +1,6 @@
 import React from 'react';
 import { calculateProgress, calculateRoundProgress } from '../../utils/tournamentUtils';
-import { Pokemon } from '../../types/pokemon';
+import { Pokemon } from '../../types';
 
 interface TournamentProgressProps {
   selectedSize: number;

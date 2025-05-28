@@ -1,6 +1,6 @@
 import React from 'react';
 import { MatchPair } from '../../hooks/useTournament';
-import { Pokemon } from '../../types/pokemon';
+import { Pokemon } from '../../types';
 import { PokemonBattleCard } from './PokemonBattleCard';
 import { TournamentInfo } from './TournamentInfo';
 import { TournamentProgress } from './TournamentProgress';

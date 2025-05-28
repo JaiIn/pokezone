@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { Pokemon, PokemonListResponse, PokemonSpecies, Generation, EvolutionChain, Move, PokemonDetail } from '../../types/pokemon';
+import { Pokemon, PokemonListResponse, PokemonSpecies, Generation, EvolutionChain, Move, PokemonDetail } from '../../types';
 import { ApiErrorHandler } from './ApiErrorHandler';
 
 export class PokemonApiService {
@@ -8,7 +8,7 @@ export class PokemonApiService {
   static async getPokemonList(limit: number = 20, offset: number = 0): Promise<PokemonListResponse> {
     return ApiErrorHandler.safeApiCall(
       async () => {
-        const response = await axios.get(`${this.BASE_URL}/pokemon?limit=${limit}&offset=${offset}`);
+        const response = await axios.get(`${PokemonApiService.BASE_URL}/pokemon?limit=${limit}&offset=${offset}`);
         return response.data;
       },
       'fetch Pokemon list'
@@ -28,7 +28,7 @@ export class PokemonApiService {
     for (let i = startId; i <= endId; i++) {
       results.push({
         name: `pokemon-${i}`,
-        url: `${this.BASE_URL}/pokemon/${i}/`
+        url: `${PokemonApiService.BASE_URL}/pokemon/${i}/`
       });
     }
     
@@ -45,7 +45,7 @@ export class PokemonApiService {
   static async getPokemon(nameOrId: string | number): Promise<Pokemon> {
     return ApiErrorHandler.safeApiCall(
       async () => {
-        const response = await axios.get(`${this.BASE_URL}/pokemon/${nameOrId}`);
+        const response = await axios.get(`${PokemonApiService.BASE_URL}/pokemon/${nameOrId}`);
         return response.data;
       },
       'fetch Pokemon data'
@@ -55,7 +55,7 @@ export class PokemonApiService {
   static async getPokemonSpecies(id: number): Promise<PokemonSpecies> {
     return ApiErrorHandler.safeApiCall(
       async () => {
-        const response = await axios.get(`${this.BASE_URL}/pokemon-species/${id}`);
+        const response = await axios.get(`${PokemonApiService.BASE_URL}/pokemon-species/${id}`);
         return response.data;
       },
       'fetch Pokemon species data'
@@ -75,7 +75,7 @@ export class PokemonApiService {
   static async getMove(nameOrId: string | number): Promise<Move> {
     return ApiErrorHandler.safeApiCall(
       async () => {
-        const response = await axios.get(`${this.BASE_URL}/move/${nameOrId}`);
+        const response = await axios.get(`${PokemonApiService.BASE_URL}/move/${nameOrId}`);
         return response.data;
       },
       'fetch move data'
