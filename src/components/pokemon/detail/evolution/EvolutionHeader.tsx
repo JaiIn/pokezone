@@ -1,4 +1,6 @@
 import React from 'react';
+import { useLanguage } from '../../../../contexts/LanguageContext';
+import { t } from '../../../../utils/translations';
 
 interface EvolutionHeaderProps {
   title?: string;
@@ -6,14 +8,17 @@ interface EvolutionHeaderProps {
 }
 
 export function EvolutionHeader({ 
-  title = "Evolution Chain", 
-  subtitle = "Check the evolution stages and conditions of Pokemon" 
+  title, 
+  subtitle 
 }: EvolutionHeaderProps) {
+  const { language } = useLanguage();
+  
+  const defaultTitle = title || t('evolution_chain', language);
+  const defaultSubtitle = subtitle || t('check_evolution_stages', language);
   return (
     <div className="text-center mb-8">
-      <div className="text-4xl mb-2">🧬</div>
-      <h3 className="text-2xl font-bold text-gray-800 dark:text-slate-200">{title}</h3>
-      <p className="text-muted mt-2">{subtitle}</p>
+      <h3 className="text-2xl font-bold text-gray-800 dark:text-slate-200">{defaultTitle}</h3>
+      <p className="text-muted mt-2">{defaultSubtitle}</p>
     </div>
   );
 }

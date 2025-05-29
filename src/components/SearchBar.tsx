@@ -2,12 +2,15 @@ import React from 'react';
 import { PokemonType } from '../types';
 import { useSearch } from '../hooks/usePokemon';
 import { PokemonService } from '../services/pokemonService';
+import { useLanguage } from '../contexts/LanguageContext';
+import { t } from '../utils/translations';
 
 interface SearchBarProps {
   onPokemonSelect: (pokemonId: number) => void;
 }
 
 export function SearchBar({ onPokemonSelect }: SearchBarProps) {
+  const { language } = useLanguage();
   const { 
     searchTerm, 
     setSearchTerm, 
@@ -35,7 +38,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
           type="text"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          placeholder="Enter Pokemon name or number..."
+          placeholder={t('enter_pokemon_name', language)}
           className="input-field pr-12"
         />
         {searchTerm && (
@@ -91,7 +94,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
               }}
               className="btn-primary"
             >
-              Select
+              {t('select', language)}
             </button>
           </div>
         </div>

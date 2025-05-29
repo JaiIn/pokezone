@@ -11,10 +11,13 @@ import { PokemonWorldCup } from './worldcup/PokemonWorldCup';
 import { ThemeToggle } from './ThemeToggle';
 import { LoadingSpinner } from './LoadingSpinner';
 import { ErrorMessage } from './ErrorMessage';
+import { useLanguage } from '../contexts/LanguageContext';
+import { t } from '../utils/translations';
 
 type ActiveModal = 'detail' | 'compare' | 'worldcup' | null;
 
 export function PokemonDex() {
+  const { language } = useLanguage();
   const { 
     pokemonList, 
     loading, 
@@ -88,14 +91,14 @@ export function PokemonDex() {
               className="btn-primary flex items-center space-x-2"
             >
               <span>⚔️</span>
-              <span>Pokemon Compare</span>
+              <span>{t('pokemon_compare', language)}</span>
             </button>
             <button
               onClick={handleWorldCupClick}
               className="btn-secondary flex items-center space-x-2"
             >
               <span>🏆</span>
-              <span>World Cup</span>
+              <span>{t('world_cup', language)}</span>
             </button>
           </div>
         </div>
@@ -106,7 +109,9 @@ export function PokemonDex() {
           <>
             <div className="text-center mb-6">
               <h2 className="text-2xl font-semibold text-gray-700 dark:text-slate-300">
-                {currentGeneration.koreanName}
+                {language === 'en' ? currentGeneration.englishName : 
+                 language === 'ja' ? currentGeneration.japaneseName : 
+                 currentGeneration.koreanName}
               </h2>
               {currentGeneration.id !== 0 && (
                 <p className="text-gray-500 dark:text-slate-400 text-sm mt-1">
@@ -130,7 +135,7 @@ export function PokemonDex() {
                   onClick={loadMore}
                   className="btn-primary"
                 >
-                  Load More Pokemon ({pokemonList.length}/{currentGeneration.id === 0 ? 1025 : currentGeneration.endId - currentGeneration.startId + 1})
+                  {t('load_more_pokemon', language)} ({pokemonList.length}/{currentGeneration.id === 0 ? 1025 : currentGeneration.endId - currentGeneration.startId + 1})
                 </button>
               </div>
             )}

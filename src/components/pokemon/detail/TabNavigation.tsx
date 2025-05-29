@@ -1,4 +1,6 @@
 import React from 'react';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import { t } from '../../../utils/translations';
 
 export type TabType = 'info' | 'evolution' | 'moves';
 
@@ -8,10 +10,12 @@ interface TabNavigationProps {
 }
 
 export function TabNavigation({ selectedTab, onTabChange }: TabNavigationProps) {
+  const { language } = useLanguage();
+  
   const tabs: { key: TabType; label: string }[] = [
-    { key: 'info', label: 'Basic Info' },
-    { key: 'evolution', label: 'Evolution' },
-    { key: 'moves', label: 'Moves' },
+    { key: 'info', label: t('basic_info', language) },
+    { key: 'evolution', label: t('evolution', language) },
+    { key: 'moves', label: t('moves', language) },
   ];
 
   return (

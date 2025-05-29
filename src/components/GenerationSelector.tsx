@@ -1,5 +1,7 @@
 import React from 'react';
 import { Generation, GENERATIONS } from '../types';
+import { useLanguage } from '../contexts/LanguageContext';
+import { t } from '../utils/translations';
 
 interface GenerationSelectorProps {
   selectedGeneration: Generation;
@@ -7,10 +9,12 @@ interface GenerationSelectorProps {
 }
 
 export function GenerationSelector({ selectedGeneration, onGenerationChange }: GenerationSelectorProps) {
+  const { language } = useLanguage();
+  
   return (
     <div className="w-full max-w-xs mx-auto mb-6">
       <label htmlFor="generation-select" className="block text-sm font-medium text-gray-700 dark:text-slate-300 mb-2">
-        Generation Select
+        {t('generation_select', language)}
       </label>
       <select
         id="generation-select"
@@ -24,11 +28,17 @@ export function GenerationSelector({ selectedGeneration, onGenerationChange }: G
         }}
         className="select-field"
       >
-        {GENERATIONS.map((generation) => (
-          <option key={generation.id} value={generation.id}>
-            {generation.koreanName}
-          </option>
-        ))}
+        {GENERATIONS.map((generation) => {
+          let displayName = generation.koreanName; // 기본값
+          if (language === 'en') displayName = generation.englishName;
+          else if (language === 'ja') displayName = generation.japaneseName;
+          
+          return (
+            <option key={generation.id} value={generation.id}>
+              {displayName}
+            </option>
+          );
+        })}
       </select>
     </div>
   );

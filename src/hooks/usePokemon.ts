@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Pokemon, PokemonListItem, PokemonSpecies, PokemonListResponse, Generation, GENERATIONS } from '../types';
 import { PokemonService } from '../services/pokemonService';
+import { useLanguage } from '../contexts/LanguageContext';
 
 export function usePokemonList(limit: number = 20, selectedGeneration?: Generation) {
   const [pokemonList, setPokemonList] = useState<PokemonListItem[]>([]);
@@ -106,6 +107,7 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
 }
 
 export function usePokemon(nameOrId: string | number | null) {
+  const { language } = useLanguage();
   const [pokemon, setPokemon] = useState<Pokemon | null>(null);
   const [species, setSpecies] = useState<PokemonSpecies | null>(null);
   const [loading, setLoading] = useState(false);
@@ -152,7 +154,7 @@ export function usePokemon(nameOrId: string | number | null) {
     };
 
     loadPokemon();
-  }, [nameOrId]);
+  }, [nameOrId, language]);
 
   return {
     pokemon,
@@ -163,6 +165,7 @@ export function usePokemon(nameOrId: string | number | null) {
 }
 
 export function useSearch() {
+  const { language } = useLanguage();
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResult, setSearchResult] = useState<Pokemon | null>(null);
   const [searchSpecies, setSearchSpecies] = useState<PokemonSpecies | null>(null);
@@ -225,7 +228,7 @@ export function useSearch() {
     }, 500);
 
     return () => clearTimeout(debounceTimer);
-  }, [searchTerm]);
+  }, [searchTerm, language]);
 
   return {
     searchTerm,

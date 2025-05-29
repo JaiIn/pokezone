@@ -4,3 +4,4 @@ export * from './pokemon';
 export * from './evolution';
 export * from './moves';
 export * from './generation';
+export * from './abilities';

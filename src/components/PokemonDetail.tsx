@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Pokemon, PokemonSpecies, PokemonDetail as PokemonDetailType } from '../types';
 import { PokemonService } from '../services/pokemonService';
+import { useLanguage } from '../contexts/LanguageContext';
 import { TabNavigation, TabType } from './pokemon/detail/TabNavigation';
 import { PokemonBasicInfo } from './pokemon/detail/PokemonBasicInfo';
 import { EvolutionChain } from './pokemon/detail/EvolutionChain';
@@ -14,11 +15,12 @@ interface PokemonDetailProps {
 }
 
 export function PokemonDetail({ pokemon, species, onClose, onPokemonSelect }: PokemonDetailProps) {
+  const { language } = useLanguage();
   const [fullDetail, setFullDetail] = useState<PokemonDetailType | null>(null);
   const [selectedTab, setSelectedTab] = useState<TabType>('info');
   const [loading, setLoading] = useState(false);
 
-  const displayName = PokemonService.getDisplayName(pokemon, species);
+  const displayName = PokemonService.getDisplayName(pokemon, species, language);
 
   // 상세 정보 로드
   useEffect(() => {

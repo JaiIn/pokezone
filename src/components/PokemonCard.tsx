@@ -1,6 +1,7 @@
 import React from 'react';
 import { Pokemon, PokemonSpecies, PokemonType } from '../types';
 import { PokemonService } from '../services/pokemonService';
+import { useLanguage } from '../contexts/LanguageContext';
 
 interface PokemonCardProps {
   pokemon: Pokemon;
@@ -9,6 +10,8 @@ interface PokemonCardProps {
 }
 
 export function PokemonCard({ pokemon, species, onClick }: PokemonCardProps) {
+  const { language } = useLanguage();
+  
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement>) => {
     const img = e.target as HTMLImageElement;
     if (img.src !== pokemon.sprites.front_default) {
@@ -16,7 +19,7 @@ export function PokemonCard({ pokemon, species, onClick }: PokemonCardProps) {
     }
   };
 
-  const displayName = PokemonService.getDisplayName(pokemon, species);
+  const displayName = PokemonService.getDisplayName(pokemon, species, language);
 
   return (
     <div
@@ -47,7 +50,7 @@ export function PokemonCard({ pokemon, species, onClick }: PokemonCardProps) {
               key={type.type.name}
               className={`pokemon-type ${PokemonService.getTypeColor(type.type.name)}`}
             >
-              {PokemonService.formatTypeName(type.type.name)}
+              {PokemonService.formatTypeName(type.type.name, language)}
             </span>
           ))}
         </div>

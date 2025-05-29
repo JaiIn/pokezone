@@ -3,6 +3,8 @@ export interface Generation {
   id: number;
   name: string;
   koreanName: string;
+  englishName: string;
+  japaneseName: string;
   startId: number;
   endId: number;
 }

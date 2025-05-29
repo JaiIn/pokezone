@@ -6,12 +6,15 @@ import { MovesHeader } from './moves/MovesHeader';
 import { MovesSection } from './moves/MovesSection';
 import { MovesStatistics } from './moves/MovesStatistics';
 import { EmptyMovesState } from './moves/EmptyMovesState';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import { t } from '../../../utils/translations';
 
 interface MovesListProps {
   fullDetail: PokemonDetail | null;
 }
 
 export function MovesList({ fullDetail }: MovesListProps) {
+  const { language } = useLanguage();
   const { moveDetails, loadMoveDetail } = useMoveDetails();
 
   if (!fullDetail?.moves) {
@@ -28,9 +31,9 @@ export function MovesList({ fullDetail }: MovesListProps) {
       <div className="space-y-8">
         {/* Level-up Moves */}
         <MovesSection
-          title="Level-up Moves"
+          title={t('level_up_moves', language)}
           icon="🌆"
-          description="Moves learned naturally through leveling up"
+          description={t('moves_learned_naturally', language)}
           moves={categorizedMoves.levelUpMoves}
           colorClass="green"
           moveDetails={moveDetails}
@@ -40,9 +43,9 @@ export function MovesList({ fullDetail }: MovesListProps) {
         {/* TM/TR Moves */}
         {categorizedMoves.machineMoves.length > 0 && (
           <MovesSection
-            title="TM/TR Moves"
+            title={t('tm_tr_moves', language)}
             icon="🔧"
-            description="Moves that can be learned using Technical Machines"
+            description={t('moves_learned_tm', language)}
             moves={categorizedMoves.machineMoves}
             colorClass="blue"
             moveDetails={moveDetails}
@@ -53,9 +56,9 @@ export function MovesList({ fullDetail }: MovesListProps) {
         {/* Other Methods */}
         {categorizedMoves.otherMoves.length > 0 && (
           <MovesSection
-            title="Special Moves"
+            title={t('special_moves', language)}
             icon="✨"
-            description="Moves learned through special methods"
+            description={t('moves_learned_special', language)}
             moves={categorizedMoves.otherMoves}
             colorClass="purple"
             moveDetails={moveDetails}

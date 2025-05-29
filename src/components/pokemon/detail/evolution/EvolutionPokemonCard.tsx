@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { EvolutionPokemon, getStageLabel } from '../../../../utils/evolutionUtils';
 import { PokemonService } from '../../../../services/pokemonService';
+import { useLanguage } from '../../../../contexts/LanguageContext';
 
 interface EvolutionPokemonCardProps {
   pokemon: EvolutionPokemon;
@@ -13,7 +14,27 @@ export const EvolutionPokemonCard = React.memo(({
   stageIndex, 
   onPokemonClick 
 }: EvolutionPokemonCardProps) => {
+  const { language } = useLanguage();
   const [imageError, setImageError] = useState(false);
+  const [displayName, setDisplayName] = useState(pokemon.name);
+  
+  useEffect(() => {
+    const loadPokemonName = async () => {
+      try {
+        const species = await PokemonService.getPokemonSpecies(parseInt(pokemon.id));
+        const localizedName = PokemonService.getDisplayName(
+          { id: parseInt(pokemon.id), name: pokemon.name } as any,
+          species,
+          language
+        );
+        setDisplayName(localizedName);
+      } catch (error) {
+        setDisplayName(pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1));
+      }
+    };
+
+    loadPokemonName();
+  }, [pokemon.id, pokemon.name, language]);
   
   const handleClick = () => {
     onPokemonClick(pokemon.name, pokemon.id);
@@ -59,8 +80,8 @@ export const EvolutionPokemonCard = React.memo(({
           <div className="text-xs font-bold text-blue-600 dark:text-blue-400">
             #{pokemon.id.padStart(3, '0')}
           </div>
-          <div className="font-bold text-sm capitalize text-gray-900 dark:text-slate-100">
-            {PokemonService.getDisplayName({ id: parseInt(pokemon.id), name: pokemon.name } as any)}
+          <div className="font-bold text-sm text-gray-900 dark:text-slate-100">
+            {displayName}
           </div>
           <div className="text-xs text-gray-600 dark:text-slate-400">
             {pokemon.name}

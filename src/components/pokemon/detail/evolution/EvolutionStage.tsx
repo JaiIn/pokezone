@@ -1,6 +1,7 @@
 import React from 'react';
 import { EvolutionPokemon, getStageLabel } from '../../../../utils/evolutionUtils';
 import { EvolutionPokemonCard } from './EvolutionPokemonCard';
+import { useLanguage } from '../../../../contexts/LanguageContext';
 
 interface EvolutionStageProps {
   stage: EvolutionPokemon[];
@@ -9,7 +10,8 @@ interface EvolutionStageProps {
 }
 
 export function EvolutionStage({ stage, stageIndex, onPokemonClick }: EvolutionStageProps) {
-  const stageLabel = getStageLabel(stageIndex);
+  const { language } = useLanguage();
+  const stageLabel = getStageLabel(stageIndex, language);
 
   return (
     <div className="flex flex-col items-center">
