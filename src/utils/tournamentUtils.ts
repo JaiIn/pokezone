@@ -3,15 +3,16 @@ import { Pokemon } from '../types';
 export interface TournamentSize {
   value: number;
   label: string;
+  key: string; // 번역 키 추가
   emoji: string;
 }
 
 export const TOURNAMENT_SIZES: TournamentSize[] = [
-  { value: 16, label: 'Round of 16', emoji: '🥉' },
-  { value: 32, label: 'Round of 32', emoji: '🥈' },
-  { value: 64, label: 'Round of 64', emoji: '🥇' },
-  { value: 128, label: 'Round of 128', emoji: '👑' },
-  { value: 256, label: 'Round of 256', emoji: '🏆' }
+  { value: 16, label: 'Round of 16', key: 'round_of_16', emoji: '🥉' },
+  { value: 32, label: 'Round of 32', key: 'round_of_32', emoji: '🥈' },
+  { value: 64, label: 'Round of 64', key: 'round_of_64', emoji: '🥇' },
+  { value: 128, label: 'Round of 128', key: 'round_of_128', emoji: '👑' },
+  { value: 256, label: 'Round of 256', key: 'round_of_256', emoji: '🏆' }
 ];
 
 export const generateRandomPokemonIds = (size: number): number[] => {

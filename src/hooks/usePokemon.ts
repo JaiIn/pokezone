@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Pokemon, PokemonListItem, PokemonSpecies, PokemonListResponse, Generation, GENERATIONS } from '../types';
 import { PokemonService } from '../services/pokemonService';
 import { useLanguage } from '../contexts/LanguageContext';
+import { t } from '../utils/translations';
 
 export function usePokemonList(limit: number = 20, selectedGeneration?: Generation) {
   const [pokemonList, setPokemonList] = useState<PokemonListItem[]>([]);
@@ -23,15 +24,12 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
       
       let response: PokemonListResponse;
       if (targetGeneration.id === 0) {
-        // All generations
         response = await PokemonService.getPokemonList(limit, currentOffset);
       } else {
-        // Specific generation
         response = await PokemonService.getPokemonByGeneration(targetGeneration, limit, currentOffset);
       }
       
       if (isLoadMore) {
-        // Prevent duplicate Pokemon by adding only unique ones
         const existingNames = new Set(pokemonList.map(p => p.name));
         const newPokemons = response.results.filter(p => !existingNames.has(p.name));
         setPokemonList(prev => [...prev, ...newPokemons]);
@@ -41,10 +39,8 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
       
       setOffset(currentOffset + limit);
       
-      // Check if more pages exist (only when next is not null)
       setHasMore(response.next !== null);
       
-      // Double check if there are no more Pokemon to load in current generation
       const hasReachedEnd = response.results.length === 0 || 
                         (targetGeneration.id !== 0 && 
                          currentOffset + limit >= targetGeneration.endId - targetGeneration.startId + 1);
@@ -70,13 +66,10 @@ export function usePokemonList(limit: number = 20, selectedGeneration?: Generati
     setOffset(0);
     setPokemonList([]);
     
-    // When selecting a specific generation, consider the number of Pokemon in that generation to set hasMore
     if (generation.id !== 0) {
-      // When total Pokemon count is less than limit, no additional loading possible
       const totalPokemon = generation.endId - generation.startId + 1;
       setHasMore(totalPokemon > limit);
     } else {
-      // When all generations are selected, always allow more loading
       setHasMore(true);
     }
     
@@ -127,7 +120,6 @@ export function usePokemon(nameOrId: string | number | null) {
       try {
         let pokemonData: Pokemon;
         
-        // If name is in pokemon-number format, extract only the number
         if (typeof nameOrId === 'string' && nameOrId.startsWith('pokemon-')) {
           const id = nameOrId.replace('pokemon-', '');
           pokemonData = await PokemonService.getPokemon(id);
@@ -188,7 +180,6 @@ export function useSearch() {
       if (result) {
         setSearchResult(result);
         
-        // Load species information for search result as well
         try {
           const speciesData = await PokemonService.getPokemonSpecies(result.id);
           setSearchSpecies(speciesData);
@@ -196,12 +187,12 @@ export function useSearch() {
           setSearchSpecies(null);
         }
       } else {
-        setSearchError(`No Pokemon found matching "${query}".`);
+        setSearchError(`${t('no_pokemon_found', language)} "${query}".`);
         setSearchResult(null);
         setSearchSpecies(null);
       }
     } catch (err) {
-      setSearchError(err instanceof Error ? err.message : 'An error occurred during search.');
+      setSearchError(err instanceof Error ? err.message : t('search_error', language));
       setSearchResult(null);
       setSearchSpecies(null);
     } finally {

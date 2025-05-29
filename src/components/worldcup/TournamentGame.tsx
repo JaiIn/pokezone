@@ -4,6 +4,8 @@ import { Pokemon } from '../../types';
 import { PokemonBattleCard } from './PokemonBattleCard';
 import { TournamentInfo } from './TournamentInfo';
 import { TournamentProgress } from './TournamentProgress';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { t } from '../../utils/translations';
 
 interface TournamentGameProps {
   currentPair: MatchPair;
@@ -26,6 +28,7 @@ export function TournamentGame({
   onReset,
   onClose
 }: TournamentGameProps) {
+  const { language } = useLanguage();
   const totalMatches = Math.ceil(participants.length / 2);
 
   return (
@@ -33,15 +36,15 @@ export function TournamentGame({
       <div className="modal-content max-w-4xl w-full p-6">
         <div className="flex justify-between items-center mb-6">
           <div>
-            <h2 className="text-2xl font-bold">Pokemon World Cup 🏆</h2>
-            <p className="text-muted">Choose your favorite Pokemon!</p>
+            <h2 className="text-2xl font-bold">{t('world_cup', language)}</h2>
+            <p className="text-muted">{t('choose_favorite_pokemon', language)}</p>
           </div>
           <div className="flex items-center space-x-4">
             <button
               onClick={onReset}
               className="btn-secondary text-sm"
             >
-              Change Tournament
+              {t('change_tournament', language)}
             </button>
             <button
               onClick={onClose}

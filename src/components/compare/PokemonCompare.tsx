@@ -5,6 +5,8 @@ import { PokemonSelectionCard } from './detail/PokemonSelectionCard';
 import { BasicInfoComparison } from './detail/BasicInfoComparison';
 import { StatsComparison } from './detail/StatsComparison';
 import { ComparisonResult } from './detail/ComparisonResult';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { t } from '../../utils/translations';
 
 interface PokemonCompareProps {
   onClose: () => void;
@@ -12,6 +14,7 @@ interface PokemonCompareProps {
 }
 
 export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps) {
+  const { language } = useLanguage();
   const [pokemon1, setPokemon1] = useState<Pokemon | null>(initialPokemon || null);
   const [pokemon2, setPokemon2] = useState<Pokemon | null>(null);
   const [species1, setSpecies1] = useState<PokemonSpecies | null>(null);
@@ -43,7 +46,7 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
     <div className="modal-backdrop flex items-center justify-center p-4 z-50">
       <div className="modal-content max-w-6xl w-full max-h-screen overflow-y-auto">
         <div className="sticky top-0 bg-white dark:bg-slate-800 border-b border-muted p-6 flex justify-between items-center">
-          <h2 className="text-2xl font-bold">Pokemon Comparison ⚔️</h2>
+          <h2 className="text-2xl font-bold">{t('pokemon_compare', language)}</h2>
           <button
             onClick={onClose}
             className="text-gray-500 hover:text-gray-700 dark:text-slate-400 dark:hover:text-slate-200 text-2xl"
@@ -58,8 +61,8 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
               pokemon={pokemon1}
               species={species1}
               position={1}
-              title="First Pokemon"
-              placeholder="Select first Pokemon"
+              title={t('first_pokemon', language)}
+              placeholder={t('select_first_pokemon', language)}
               onSelect={(pokemon) => handlePokemonSelect(pokemon, 1)}
               onClear={() => setPokemon1(null)}
             />
@@ -68,8 +71,8 @@ export function PokemonCompare({ onClose, initialPokemon }: PokemonCompareProps)
               pokemon={pokemon2}
               species={species2}
               position={2}
-              title="Second Pokemon"
-              placeholder="Select second Pokemon"
+              title={t('second_pokemon', language)}
+              placeholder={t('select_second_pokemon', language)}
               onSelect={(pokemon) => handlePokemonSelect(pokemon, 2)}
               onClear={() => setPokemon2(null)}
             />

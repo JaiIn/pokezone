@@ -29,7 +29,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
     }
   };
 
-  const displayName = searchResult ? PokemonService.getDisplayName(searchResult, searchSpecies) : '';
+  const displayName = searchResult ? PokemonService.getDisplayName(searchResult, searchSpecies, language) : '';
 
   return (
     <div className="w-full max-w-md mx-auto mb-8">
@@ -54,7 +54,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
 
       {searchLoading && (
         <div className="mt-2 text-center text-muted">
-          Searching...
+          {t('loading', language)}
         </div>
       )}
 
@@ -82,7 +82,7 @@ export function SearchBar({ onPokemonSelect }: SearchBarProps) {
                     key={type.type.name}
                     className={`pokemon-type ${PokemonService.getTypeColor(type.type.name)}`}
                   >
-                    {PokemonService.formatTypeName(type.type.name)}
+                    {PokemonService.formatTypeName(type.type.name, language)}
                   </span>
                 ))}
               </div>

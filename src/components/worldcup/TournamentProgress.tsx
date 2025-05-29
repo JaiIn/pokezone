@@ -1,6 +1,8 @@
 import React from 'react';
 import { calculateProgress, calculateRoundProgress } from '../../utils/tournamentUtils';
 import { Pokemon } from '../../types';
+import { useLanguage } from '../../contexts/LanguageContext';
+import { t } from '../../utils/translations';
 
 interface TournamentProgressProps {
   selectedSize: number;
@@ -10,6 +12,7 @@ interface TournamentProgressProps {
 }
 
 export function TournamentProgress({ selectedSize, participants, currentMatch, roundName }: TournamentProgressProps) {
+  const { language } = useLanguage();
   const overallProgress = calculateProgress(selectedSize, participants, currentMatch);
   const roundProgress = calculateRoundProgress(currentMatch, participants.length);
   const remainingMatches = selectedSize - 1 - (selectedSize - participants.length) - currentMatch;
@@ -19,7 +22,7 @@ export function TournamentProgress({ selectedSize, participants, currentMatch, r
       {/* Overall Progress */}
       <div className="mb-6">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-medium">Overall Progress</span>
+          <span className="text-sm font-medium">{t('overall_progress', language)}</span>
           <span className="text-sm text-muted">
             {overallProgress.toFixed(1)}%
           </span>
@@ -31,7 +34,7 @@ export function TournamentProgress({ selectedSize, participants, currentMatch, r
           />
         </div>
         <div className="text-xs text-muted mt-1">
-          Remaining matches: {remainingMatches}
+          {t('remaining_matches', language)}: {remainingMatches}
         </div>
       </div>
 
